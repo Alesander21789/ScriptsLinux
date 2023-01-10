@@ -1,0 +1,83 @@
+Para crear una carpeta compartida en Ubuntu en VirtualBox, sigue estos pasos:
+
+Abre VirtualBox y selecciona la máquina virtual en la que deseas crear la carpeta compartida. Haz clic en el botón "Settings" (Configuración) en la barra de herramientas.
+
+En la ventana de configuración de la máquina virtual, selecciona la pestaña "Shared Folders" (Carpetas compartidas) en la parte superior. Haz clic en el botón "Add Shared Folder" (Añadir carpeta compartida) en la parte inferior de la ventana.
+
+En la ventana que aparece, selecciona la carpeta en tu equipo host que deseas compartir con la máquina virtual. Asigna un nombre a la carpeta compartida y selecciona las opciones de acceso que deseas permitir para la carpeta. Haz clic en "OK" para guardar la configuración.
+
+Inicia la máquina virtual y abre una consola en Ubuntu. Ejecuta el siguiente comando para montar la carpeta compartida en un directorio en Ubuntu:
+
+sudo mount -t vboxsf -o rw,uid=$UID,gid=$(id -g) [nombre_carpeta_compartida] [directorio_montaje]
+
+
+Sustituye [nombre_carpeta_compartida] por el nombre que le diste a la carpeta compartida en el paso 3, y [directorio_montaje] por el directorio en el que deseas montar la carpeta. Por ejemplo, si el nombre de la carpeta compartida es "mi_carpeta" y deseas montarla en el directorio /home/usuario/carpetas_compartidas, el comando completo sería:
+
+sudo mount -t vboxsf -o rw,uid=$UID,gid=$(id -g) mi_carpeta /home/usuario/carpetas_compartidas
+
+
+Una vez que hayas ejecutado el comando, la carpeta compartida estará disponible en el directorio de montaje que especificaste.
+
+
+---------------------------------------------
+
+
+#!/bin/bash
+
+# Nombre de la carpeta compartida
+CARPETA_COMPARTIDA=mi_carpeta
+
+# Directorio de montaje de la carpeta compartida
+DIRECTORIO_MONTAJE=/home/usuario/carpetas_compartidas
+
+sudo mount -t vboxsf -o rw,uid=$UID,gid=$(id -g) $CARPETA_COMPARTIDA $DIRECTORIO_MONTAJE
+
+
+Sustituye mi_carpeta por el nombre que le diste a la carpeta compartida en el paso 3 del procedimiento anterior, y /home/usuario/carpetas_compartidas por el directorio en el que deseas montar la carpeta.
+
+Guarda el archivo de script con un nombre de tu elección, por ejemplo, montar_carpeta_compartida.sh.
+
+Abre una consola en Ubuntu y ejecuta el siguiente comando para dar permisos de ejecución al script:
+
+
+sudo chmod +x /ruta/al/script/montar_carpeta_compartida.sh
+
+/ruta/al/script/montar_carpeta_compartida.sh
+
+
+
+-----------------------------------------------------------------
+
+
+Para añadir un usuario a un grupo en Ubuntu, sigue estos pasos:
+
+Abre una consola en Ubuntu y ejecuta el siguiente comando para ver la lista de grupos en el sistema:
+
+
+sudo getent group
+
+
+El comando anterior te mostrará una lista de grupos, incluyendo el grupo vboxsf. Anota el número de identificación (ID) del grupo vboxsf.
+
+Ejecuta el siguiente comando para añadir el usuario al grupo vboxsf, sustituyendo [usuario] y [id_grupo] por el nombre de usuario y el ID del grupo respectivamente:
+
+
+
+
+sudo usermod -a -G [id_grupo] [usuario]
+
+
+
+Por ejemplo, si el nombre de usuario es usuario1 y el ID del grupo vboxsf es 1000, el comando completo sería:
+
+
+
+
+sudo usermod -a -G 1000 usuario1
+
+
+
+sudo mount -t vboxsf [nombre carpeta comaprtida] [direcotiro montaje]
+
+
+sudo mount -t vboxsf Documentos /home/Uusario/Documentos

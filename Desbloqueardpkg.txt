@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Primero, determinamos qué programa está utilizando dpkg
+program_using_dpkg=$(lsof /var/lib/dpkg/lock)
+
+# Si no se encuentra ningún programa, salimos del script
+if [ -z "$program_using_dpkg" ]; then
+  exit 0
+fi
+
+# Si se encuentra un programa, lo cerramos
+kill "$program_using_dpkg"
+
+# Finalmente, intentamos eliminar el archivo de lock manualmente
+sudo rm /var/lib/dpkg/lock
+
+
+
+#!/bin/bash
+
+# Forzamos el cierre del administrador de paquetes dpkg
+sudo fuser -vki /var/lib/dpkg/lock
+
+
+
+#!/bin/bash
+
+# Primero, determinamos qué programa está utilizando dpkg
+program_using_dpkg=$(lsof /var/lib/dpkg/lock)
+
+# Si no se encuentra ningún programa, salimos del script
+if [ -z "$program_using_dpkg" ]; then
+  exit 0
+fi
+
+# Si se encuentra un programa, lo cerramos forzadamente
+sudo fuser -kki "$program_using_dpkg"
