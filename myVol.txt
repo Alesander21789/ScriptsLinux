@@ -1,0 +1,49 @@
+#!/bin/bash
+
+# guarda la ruta de Volatility en una variable
+volatility_path="/path/to/volatility"
+
+# especifica la imagen de memoria a analizar
+image_file="path/to/memory_image.raw"
+
+# especifica el perfil del sistema operativo
+profile="WinXPSP2x86"
+
+# recoge el parámetro especificando el nombre de la carpeta principal
+main_folder=$1
+
+# crea las carpetas para guardar la información
+mkdir -p $main_folder/procesos $main_folder/red $main_folder/dlls $main_folder/registro $main_folder/sockets $main_folder/hilos $main_folder/llamadas_al_sistema $main_folder/conexiones_red $main_folder/escaneo_red $main_folder/archivos $main_folder/manejadores
+
+echo "Extrayendo información de la tabla de procesos"
+$volatility_path -f $image_file --profile=$profile pslist > $main_folder/procesos/pslist.txt
+
+echo "Extrayendo información de las conexiones de red"
+$volatility_path -f $image_file --profile=$profile connscan > $main_folder/red/connscan.txt
+
+echo "Extrayendo información de las dlls cargadas"
+$volatility_path -f $image_file --profile=$profile dlllist > $main_folder/dlls/dlllist.txt
+
+echo "Extrayendo información de las claves del registro"
+$volatility_path -f $image_file --profile=$profile hivelist > $main_folder/registro/hivelist.txt
+
+echo "Extrayendo información de los procesos de sockets"
+$volatility_path -f $image_file --profile=$profile sockets > $main_folder/sockets/sockets.txt
+
+echo "Extrayendo información de los procesos de hilos"
+$volatility_path -f $image_file --profile=$profile pstree > $main_folder/hilos/pstree.txt
+
+echo "Extrayendo información de las llamadas al sistema"
+$volatility_path -f $image_file --profile=$profile syscalls > $main_folder/llamadas_al_sistema/syscalls.txt
+
+echo "Extrayendo información de las conexiones a la red"
+$volatility_path -f $image_file --profile=$profile connections > $main_folder/conexiones_red/connections.txt
+
+echo "Extrayendo información de las conexiones a la red"
+$volatility_path -f $image_file --profile=$profile netscan > $main_folder/escaneo_red/netscan.txt
+
+echo "Escanear Archivos"
+$volatility_path -f $image_file --profile=$profile filescan > $main_folder/archivos/filescan.txt
+
+echo "Extrayendo información de los manejadores"
+$volatility_path -f $image_file --profile=$profile handles > $main_folder/manejadores
