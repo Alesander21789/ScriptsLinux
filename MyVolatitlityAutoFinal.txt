@@ -1,0 +1,102 @@
+#!/bin/bash
+
+#guarda la ruta de Volatility en una variable
+volatility_path="/path/to/volatility"
+
+#Valida si volatility esta instalado y en caso contrario muestra un mensaje de error y sale del script
+if ! [ -x "$(command -v $volatility_path)" ]; then
+    echo 'Error: Volatility no esta instalado o no esta en el PATH' >&2
+    exit 1
+fi
+
+#Comprobar si los parámetros son correctos
+if [ $# -ne 3 ]; then
+    echo "Error: La cantidad de parametros es incorrecta"
+    echo "Uso: $0 <image_file> <main_folder> <profile>"
+    exit 1
+fi
+
+# asigna valor a las variables a partir de los parametros
+image_file=$1
+main_folder=$2
+profile=$3
+
+#Valida si la ruta de la imagen de memoria existe
+if [ ! -f $image_file ]; then
+    echo "Error: La ruta de la imagen de memoria no es valida"
+    exit 1
+fi
+
+#Valida si el perfil especificado existe y es valido
+valid_profiles=("WinXPSP2x86" "Win7SP1x86" "Win7SP1x64")
+if [[ ! " ${valid_profiles[@]} " =~ " ${profile} " ]]; then
+    echo "Error: El perfil especificado no existe o no es valido"
+    exit 1
+fi
+
+# pregunta al usuario cuantos comandos desea filtrar y con qué texto
+read -p "¿Cuántos comandos desea filtrar? (0-9): " num_comandos
+for i in $(seq 1 $num_comandos); do
+    read -p "Introduzca el texto de filtrado para el comando $(echo $i | awk '{if ( $1 == 1) print "pslist"; else if ( $1 == 2) print "connscan"; else if ( $1 == 3) print "dlllist"; else if ( $1 == 4) print "hivelist"; else if ( $1 == 5) print "sockets"; else if ( $1 == 6) print "pstree"; else if ( $1 == 7) print "syscalls"; else if ( $1 == 8) print "connections"; else if ( $1 == 9) print "netscan"; else if ( $1 == 10) print "filescan"; else if ( $1 == 11) print "handles";}') : " texto_filtro[i]
+done
+
+
+
+#Crea la carpeta principal si no existe
+mkdir -p $main_folder
+
+# Crea las carpetas para guardar la información
+mkdir -p $main_folder/procesos $main_folder/red $main_folder/dlls $main_folder/registro $main_folder/sockets $main_folder/hilos $main_folder/llamadas_al_sistema $main_folder/conexiones_red $main_folder/escaneo_red $main_folder/archivos $main_folder/manejadores $main_folder/particiones
+
+echo "Extrayendo información de la tabla de procesos"
+$volatility_path -f $image_file --profile=$profile pslist | grep ${texto_filtro[1]} > $main_folder/procesos/pslist.txt
+
+echo "Extrayendo información de las conexiones de red"
+$volatility_path -f $image_file --profile=$profile connscan | grep ${texto_filtro[2]} > $main_folder/red/connscan.txt
+
+echo "Extrayendo información de las dlls cargadas"
+$volatility_path -f $image_file --profile=$profile dlllist | grep ${texto_filtro[3]} > $main_folder/dlls/dlllist.txt
+
+echo "Extrayendo información de las claves del registro"
+$volatility_path -f $image_file --profile=$profile hivelist | grep ${texto_filtro[4]} > $main_folder/registro/hivelist.txt
+
+echo "Extrayendo información de los procesos de sockets"
+$volatility_path -f $image_file --profile=$profile sockets | grep ${texto_filtro[5]} > $main_folder/registro/socketlist.txt
+
+
+
+$main_folder/sockets/sockets.txt
+
+echo "Extrayendo información de los procesos de hilos"
+$volatility_path -f $image_file --profile=$profile pstree | grep ${texto_filtro[6]} > $main_folder/hilos/pstree.txt
+
+echo "Extrayendo información de las llamadas al sistema"
+$volatility_path -f $image_file --profile=$profile syscalls | grep ${texto_filtro[7]} > $main_folder/llamadas_al_sistema/syscalls.txt
+
+
+
+
+echo "Extrayendo información de las conexiones a la red"
+$volatility_path -f $image_file --profile=$profile connections | grep ${texto_filtro[8]} > $main_folder/conexiones_red/connections.txt
+
+echo "Extrayendo información de las conexiones a la red"
+$volatility_path -f $image_file --profile=$profile netscan | grep ${texto_filtro[9]} > $main_folder/escaneo_red/netscan.txt
+
+
+
+echo "Escanear Archivos"
+$volatility_path -f $image_file --profile=$profile filescan | grep ${texto_filtro[10]} > $main_folder/archivos/filescan.txt
+
+echo "Extrayendo información de los manejadores"
+$volatility_path -f $image_file --profile=$profile handles | grep ${texto_filtro[11]} > $main_folder/manejadores/handles.txt
+
+
+
+echo "Extrayendo información de las particiones"
+$volatility_path -f $image_file --profile=$profile imageinfo | grep ${texto_filtro[12]} > $main_folder/particiones/imageinfo.txt
+
+
+
+
+
+
