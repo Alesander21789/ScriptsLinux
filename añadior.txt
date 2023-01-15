@@ -1,0 +1,20 @@
+functionA() {
+    echo "Hola, soy la función A"
+}
+
+functionB() {
+    echo "Hola, soy la función B"
+}
+
+while true; do
+    read -p "Escriba algo (escriba 'salir' para salir, 'a' para ejecutar la función A y 'b' para ejecutar la función B): " input
+    if [[ $input == "salir" ]]; then
+        break
+    elif [[ $input == "a" ]]; then
+        functionA
+    elif [[ $input == "b" ]]; then
+        functionB
+    else
+        echo "Entrada no válida"
+    fi
+done
