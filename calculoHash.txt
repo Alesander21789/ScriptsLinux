@@ -1,0 +1,55 @@
+#!/bin/bash
+
+read -p "Ingrese el nombre del archivo: " file
+read -p "Ingrese la ruta de la carpeta donde se guardarán los archivos: " folder
+ext=".txt"
+
+if [ ! -f "$file" ]; then
+    echo "El archivo no existe"
+    exit 1
+fi
+
+if [ ! -d "$folder" ]; then
+    echo "La carpeta no existe"
+    exit 1
+fi
+
+md5() {
+    echo -n "Calculando md5: ["
+    {
+        md5sum "$file" | cut -d ' ' -f 1
+    } | pv -l -s $(stat -c %s "$file") > "$folder/$file.md5$ext"
+    echo -n "] Done!"
+}
+
+sha1() {
+    echo -n "Calculando sha1: ["
+    {
+        sha1sum "$file" | cut -d ' ' -f 1
+    } | pv -l -s $(stat -c %s "$file") > "$folder/$file.sha1$ext"
+    echo -n "] Done!"
+}
+
+sha256() {
+    echo -n "Calculando sha256: ["
+    {
+        sha256sum "$file" | cut -d ' ' -f 1
+    } | pv -l -s $(stat -c %s "$file") > "$folder/$file.sha256$ext"
+    echo -n "] Done!"
+}
+
+sha512() {
+    echo -n "Calculando sha512: ["
+    {
+        sha512sum "$file" | cut -d ' ' -f 1
+    } | pv -l -s $(stat -c %s "$file") > "$folder/$file.sha512$ext"
+    echo -n "] Done!"
+}
+
+md5
+echo ""
+sha1
+echo ""
+sha256
+echo ""
+sha512
