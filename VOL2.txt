@@ -1,0 +1,77 @@
+
+#!/bin/bash
+#./nombre_del_script.sh memoria.raw informacion WinXPSP2x86 "pslist,dlllist"
+inicio=$(date +%s)
+
+# guarda la ruta de Volatility en una variable
+volatility_path="/path/to/volatility"
+
+# especifica la imagen de memoria a analizar
+image_file=$1
+
+# especifica la carpeta principal donde se guardará la información
+main_folder=$2
+
+# especifica el perfil del sistema operativo
+profile=$3
+
+# comandos a ejecutar
+comandos_elegidos=$4
+
+# arreglo para almacenar los filtros
+texto_filtro=()
+
+#Comandos de Volatility
+comandos=("pslist" "connscan" "dlllist" "hivelist" "sockets" "pstree" "syscalls" "connections" "netscan" "filescan" "handles" "imageinfo" "particiones")
+
+
+#Crea las carpetas para guardar la información
+mkdir -p $main_folder/procesos $main_folder/red $main_folder/dlls $main_folder/registro $main_folder/sockets $main_folder/hilos $main_folder/llamadas_al_sistema $main_folder/conexiones_red $main_folder/escaneo_red $main_folder/archivos $main_folder/manejadores $main_folder/particiones
+
+
+
+#Divide los comandos elegidos en un arreglo
+IFS=',' read -ra comandos_elegidos_arr <<< "$comandos_elegidos"
+
+#Pide el numero de comandos a filtrar y los filtros
+echo "Ingresa el número de comandos a filtrar (0 si no deseas filtrar ninguno):"
+read num_comandos
+
+if [ $num_comandos -gt 0 ]; then
+    for (( i=1; i<=$num_comandos; i++ ))
+    do
+        echo "Ingresa el filtro para el comando $i:"
+        read filtro
+        texto_filtro[i]=$filtro
+    done
+fi
+
+#Ejecuta los comandos elegidos con filtro si se especifico uno
+for comando in "${comandos_elegidos_arr[@]}"
+do
+    for (( i=1; i<=$num_comandos; i++ ))
+    do
+        if [ "$comando" == "${comandos[i-1]}" ]; then
+            echo "Extrayendo información de $comando con filtro: ${texto_filtro[i]}"
+           python2.7 $volatility_path -f $image_file --profile=$profile $comando | grep ${texto_filtro[i]} > $main_folder/$comando/$comando.txt
+        fi
+    done
+done
+
+#Ejecuta los comandos no elegidos para filtrar
+for comando in "${comandos[@]}"
+do
+    if ! echo "$comandos_elegidos" | grep -q "$comando"; then
+        echo "Extrayendo información de $comando"
+        $volatility_path -f $image_file --profile=$profile $comando > $main_folder/$comando/$comando.txt
+    fi
+done
+
+
+
+
+
+final=$(date +%s)
+diferencia=$((final-inicio))
+echo "El script tardó $diferencia segundos en ejecutarse"
+echo "Fecha y hora de inicio: $(date +%d/%m/%Y\ %H:%M:%S)"
