@@ -1,0 +1,274 @@
+#!/bin/bash
+
+# Part 1: System Information
+
+# Display system information
+uname -a
+
+# Display system uptime
+uptime
+
+# Display memory usage
+free -m
+
+# Display disk usage
+df -h
+
+# Display network connections
+netstat -ant
+
+# Display currently logged in users
+who
+
+# Display system load
+cat /proc/loadavg
+
+
+# Part 2: Package Management
+
+# Update package list
+apt-get update
+
+# Upgrade installed packages
+apt-get upgrade -y
+
+# Search for a package
+apt-cache search package_name
+
+# Install a package
+apt-get install package_name -y
+
+# Remove a package
+apt-get remove package_name -y
+
+# Purge a package
+apt-get purge package_name -y
+
+# Check package dependencies
+apt-cache depends package_name
+
+# Check package information
+apt-cache show package_name
+
+
+# Part 3: Service Management
+
+# Start a service
+service service_name start
+
+# Stop a service
+service service_name stop
+
+# Restart a service
+service service_name restart
+
+# Reload a service
+service service_name reload
+
+# Check status of a service
+service service_name status
+
+# List all services and their status
+service --status-all
+
+# Enable a service to start at boot
+systemctl enable service_name
+
+# Disable a service from starting at boot
+systemctl disable service_name
+
+
+# Part 4: User Management
+
+# Add a new user
+useradd username
+
+# Set a password for a user
+passwd username
+
+# Delete a user
+userdel username
+
+# Add a user to a group
+usermod -a -G groupname username
+
+# Check a user's groups
+id username
+
+# Lock a user account
+usermod -L username
+
+# Unlock a user account
+usermod -U username
+
+# Check last login of a user
+lastlog -u username
+
+
+
+# Part 5: File Management
+
+# Create a directory
+mkdir directory_name
+
+# Remove a directory
+rmdir directory_name
+
+# Create a file
+touch file_name
+
+# Remove a file
+rm file_name
+
+# Copy a file
+cp file1 file2
+
+# Move a file
+mv file1 file2
+
+# Rename a file
+mv old_file_name new_file_name
+
+# Display contents of a file
+cat file_name
+
+# Display contents of a file with line numbers
+cat -n file_name
+
+# Search for a string in a file
+grep "string" file_name
+
+
+
+# Part 6: Process Management
+
+# Display current processes
+ps aux
+
+# Display a specific process
+ps aux | grep process_name
+
+# Kill a process
+kill pid
+
+# Kill a process by name
+killall process_name
+
+# Display top processes
+top
+
+# Display process statistics
+vmstat
+
+# Display process limits
+ulimit -a
+
+
+# Part 7: Log Management
+
+# Display messages log
+tail -f /var/log/messages
+
+# Display secure log
+tail -f /var/log/secure
+
+# Display error log
+tail -f /var/log/error
+
+# Rotate log files
+logrotate /etc/logrotate.conf
+
+# Search logs for a string
+grep "string" /var/log/*
+
+# Clear log files
+cat /dev/null > /var/log/messages
+
+
+# Part 8: Network Management
+
+# Display IP address
+ip addr show
+
+# Display routing table
+route -n
+
+# Display DNS information
+cat /etc/resolv.conf
+
+# Test network connectivity
+ping -c 4 google.com
+
+# Test network speed
+speedtest-cli
+
+# Display open ports
+netstat -tuln
+
+# Display listening services
+netstat -tulnp
+
+
+
+# Part 9: Security Management
+
+# Display firewall status
+ufw status
+
+# Enable firewall
+ufw enable
+
+# Disable firewall
+ufw disable
+
+# Allow a service through firewall
+ufw allow service
+
+# Deny a service through firewall
+ufw deny service
+
+# Display iptables rules
+iptables -L
+
+# Display SELinux status
+sestatus
+
+# Enable SELinux
+setenforce 1
+
+# Disable SELinux
+setenforce 0
+
+
+
+# Part 10: Backup and Recovery
+
+# Create a tar archive
+tar -cvf archive.tar /path/to/folder
+
+# Extract a tar archive
+tar -xvf archive.tar
+
+# Create a compressed tar archive
+tar -cvzf archive.tar.gz /path/to/folder
+
+# Extract a compressed tar archive
+tar -xvzf archive.tar.gz
+
+# Create a backup of a directory
+rsync -avz /path/to/folder user@remote:/path/to/backup
+
+# Recover files from a backup
+rsync -avz user@remote:/path/to/backup /path/to/folder
+
+# Create a disk image
+dd if=/dev/sda of=/path/to/image.img
+
+# Restore a disk image
+dd if=/path/to/image.img of=/dev/sda
+
+
+
+
+
+
