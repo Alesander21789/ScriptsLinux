@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Cambia el idioma del sistema a español
+sudo update-locale LANG=es_ES.UTF-8
+
+# Cambia el idioma de la consola a español
+sudo localectl set-locale LANG=es_ES.UTF-8
+
+# Cambia el teclado a español
+sudo localectl set-keymap es
+
+# Configura el idioma español como predeterminado en el sistema
+sudo update-locale

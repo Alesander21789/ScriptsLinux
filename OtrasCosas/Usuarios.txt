@@ -1,0 +1,3 @@
+sudo usermod -a -G <group_name> <username>
+
+Nota: La opción "-a" significa que el usuario se añadirá al grupo especificado sin eliminarlo de los grupos a los que ya pertenece.

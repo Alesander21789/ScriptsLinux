@@ -1,0 +1,74 @@
+#!/bin/bash
+
+# Part 1: Update package list and install SSH
+apt-get update
+apt-get install -y openssh-server
+
+# Part 2: Configure SSH
+
+# Change default SSH port
+sed -i 's/Port 22/Port 2222/' /etc/ssh/sshd_config
+
+# Disable password authentication and enable key-based authentication
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Create a new user for SSH and restrict login to that user
+useradd sshuser
+echo "sshuser:secretpassword" | chpasswd
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+echo "AllowUsers sshuser" >> /etc/ssh/sshd_config
+
+# Part 3: Restart SSH service and enable it on startup
+systemctl restart ssh
+systemctl enable ssh
+
+# Part 4: Configure firewall to allow only incoming connections on SSH port
+ufw allow 2222/tcp
+
+
+En la primera parte se actualiza la lista de paquetes y se instala SSH.
+
+La segunda parte se configura SSH, modificando el puerto, deshabilitando la autenticación de contraseñas y habilitando la autenticación de clave ssh, además se crea un usuario específico para SSH y se restringe el inicio de sesión solo a ese usuario.
+
+En la tercera parte se reinicia el servicio SSH y se habilita en el arranque del sistema
+
+La cuarta parte se configura el firewall para permitir solo conexiones entrantes en el puerto SSH específico.
+
+
+# Part 2: Configure SSH
+
+# Change default SSH port
+sed -i 's/Port 22/Port 2222/' /etc/ssh/sshd_config
+
+# Disable password authentication and enable key-based authentication
+sed -i 's/#PasswordAuthentication yes/PasswordAuthentication no/' /etc/ssh/sshd_config
+sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/' /etc/ssh/sshd_config
+
+# Create a new user for SSH and restrict login to that user
+useradd sshuser
+echo "sshuser:secretpassword" | chpasswd
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/' /etc/ssh/sshd_config
+echo "AllowUsers sshuser" >> /etc/ssh/sshd_config
+
+
+En esta parte del script se configura SSH, modificando el puerto predeterminado a 2222, deshabilitando la autenticación de contraseñas y habilitando la autenticación de clave ssh, además se crea un usuario específico para SSH y se restringe el inicio de sesión solo a ese usuario.
+
+
+
+# Part 3: Restart SSH service and enable it on startup
+systemctl restart ssh
+systemctl enable ssh
+
+
+En esta parte del script se reinicia el servicio SSH y se habilita en el arranque del sistema, esto garantiza que SSH estará activo y disponible cada vez que el sistema se encienda.
+
+
+# Part 4: Configure firewall to allow only incoming connections on SSH port
+ufw allow 2222/tcp
+ufw allow 80/tcp
+utw allow 8080/tcp
+utw allow 443/tcp
+
+
+En esta parte del script se configura el firewall para permitir solo conexiones entrantes en el puerto SSH específico (2222) esto ayudara a mejorar la seguridad de tu servidor al restringir el acceso solo a través del puerto específico que se ha configurado para SSH.
