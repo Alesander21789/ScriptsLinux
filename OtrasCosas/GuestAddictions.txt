@@ -1,0 +1,11 @@
+https://stackoverflow.com/questions/28328775/virtualbox-mount-vboxsf-mounting-failed-with-the-error-no-such-device
+
+Debian:
+
+sudo apt-get install dkms linux-headers-$(uname -r)
+
+
+sudo apt-get install virtualbox-guest-x11
+
+
+sudo sh /media/cdrom0/VBoxLinuxAdditions.run
