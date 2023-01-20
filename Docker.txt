@@ -1,0 +1,333 @@
+Parte 1: Instalación de Docker en Linux
+Para instalar Docker en Linux, se deben seguir los siguientes pasos:
+
+Actualizar el sistema: sudo apt-get update
+Instalar dependencias necesarias: sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+Añadir la clave GPG de Docker: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+Añadir el repositorio de Docker: sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+Actualizar el sistema nuevamente: sudo apt-get update
+Instalar Docker: sudo apt-get install -y docker-ce
+Una vez instalado, se puede verificar la versión de Docker ejecutando docker --version
+
+Parte 2: Comandos básicos de Docker
+docker run: Este comando se utiliza para ejecutar un contenedor. Ejemplo: docker run -it ubuntu:latest /bin/bash
+
+docker ps: Este comando se utiliza para ver los contenedores en ejecución. Ejemplo: docker ps
+
+docker images: Ejecutando este comando se puede ver las imágenes descargadas en el sistema. Ejemplo: docker images
+
+docker pull: Este comando se utiliza para descargar una imagen desde un registro. Ejemplo: `docker pull ubdocker:latest`
+
+docker stop: Este comando se utiliza para detener un contenedor. Ejemplo: docker stop my_container
+
+docker start: Este comando se utiliza para iniciar un contenedor detenido. Ejemplo: docker start my_container
+
+docker rm: Este comando se utiliza para eliminar un contenedor. Ejemplo: docker rm my_container
+
+docker rmi: Este comando se utiliza para eliminar una imagen. Ejemplo: docker rmi ubuntu:latest
+
+docker exec: Este comando se utiliza para ejecutar un comando dentro de un contenedor. Ejemplo: docker exec -it my_container /bin/bash
+
+docker network: Este comando se utiliza para interactuar con las redes de Docker. Ejemplo: docker network create my_network
+
+docker inspect: Este comando se utiliza para ver información detallada de un contenedor o una imagen. Ejemplo: docker inspect my_container o docker inspect ubuntu:latest
+
+docker logs: Este comando se utiliza para ver los logs de un contenedor. Ejemplo: docker logs my_container
+
+docker cp: Este comando se utiliza para copiar archivos entre el host y el contenedor o entre contenedores. Ejemplo: docker cp my_file.txt my_container:/path/to/destination
+
+docker diff: Este comando se utiliza para ver las diferencias entre el contenido de un contenedor y la imagen base. Ejemplo: docker diff my_container
+
+docker stats: Este comando se utiliza para ver estadísticas en tiempo real de los contenedores en ejecución. Ejemplo: docker stats
+
+docker top: Este comando se utiliza para ver los procesos en ejecución dentro de un contenedor. Ejemplo: docker top my_container
+
+docker attach: Este comando se utiliza para conectarse a un contenedor en ejecución. Ejemplo: docker attach my_container
+
+docker build: Este comando se utiliza para construir una imagen a partir de un archivo Dockerfile. Ejemplo: docker build -t my_image .
+
+docker commit: Este comando se comando se utiliza para crear una nueva imagen a partir de un contenedor modificado. Ejemplo: docker commit my_container my_new_image
+
+docker save: Este comando se utiliza para guardar una imagen en un archivo. Ejemplo: docker save my_image > my_image.tar
+
+docker load: Este comando se utiliza para cargar una imagen guardada en un archivo. Ejemplo: docker load < my_image.tar
+
+docker run --name: Este comando se utiliza para asignar un nombre específico a un contenedor. Ejemplo: docker run --name my_container -it ubuntu:latest /bin/bash
+
+docker run --rm: Este comando se utiliza para eliminar automáticamente un contenedor al detenerlo. Ejemplo: docker run --rm -it ubuntu:latest /bin/bash
+
+docker run -d: Este comando se utiliza para ejecutar un contenedor en segundo plano. Ejemplo: docker run -d -p 80:80 nginx
+
+docker run -p: Este comando se utiliza para exponer puertos del contenedor al host. Ejemplo: docker run -p 80:80 nginx
+
+docker run -v: Este comando se utiliza para montar un volumen en el contenedor. Ejemplo: docker run -v /path/on/host:/path/in/container -it ubuntu:latest /bin/bash
+
+docker run --link: Este comando se utiliza para crear un enlace entre dos contenedores. Ejemplo: docker run --link my_db_container:db -it ubuntu:latest /bin/bash
+
+docker run --env: Este comando se utiliza para establecer variables de entorno en un contenedor. Ejemplo: docker run --env MY_VAR=value -it ubuntu:latest /bin/bash
+
+docker run --user: Este comando se utiliza para ejecutar un contenedor con un usuario específico. Ejemplo: docker run --user 1000 -it ubuntu:latest /bin/bash
+
+docker run --entrypoint: Este comando se utiliza para establecer el punto de entrada para un contenedor. Ejemplo: docker run --entrypoint /bin/bash -it ubuntu:latest
+
+docker run --workdir: Este comando se utiliza para establecer el directorio de trabajo para un contenedor. Ejemplo: docker run --workdir /var/www/html -it ubuntu:latest /bin/bash
+
+docker run --network: Este comando se utiliza para conectar un contenedor a una red específica. Ejemplo: `docker run --network my_network -it ubuntu:latest /bin/bash`
+
+docker network create: Este comando se utiliza para crear una nueva red en Docker. Ejemplo: docker network create my_network
+
+docker network ls: Este comando se utiliza para ver las redes existentes en Docker. Ejemplo: docker network ls
+
+docker network inspect: Este comando se utiliza para ver información detallada de una red en Docker. Ejemplo: docker network inspect my_network
+
+docker network rm: Este comando se utiliza para eliminar una red en Docker. Ejemplo: docker network rm my_network
+
+docker network connect: Este comando se utiliza para conectar un contenedor a una red existente. Ejemplo: docker network connect my_network my_container
+
+docker network disconnect: Este comando se utiliza para desconectar un contenedor de una red existente. Ejemplo: docker network disconnect my_network my_container
+
+docker network create --driver: Este comando se utiliza para crear una red con un controlador específico. Ejemplo: docker network create --driver bridge my_network
+
+docker network create --subnet: Este comando se utiliza para crear una red con una subred específica. Ejemplo: docker network create --subnet=172.16.0.0/16 my_network
+
+docker network create --ip-range: Este comando se utiliza para limitar el rango de direcciones IP asignadas en una red. Ejemplo: docker network create --ip-range=172.16.5.0/24 my_network
+
+docker network create --gateway: Este comando se utiliza para establecer una puerta de enlace específica en una red. Ejemplo: docker network create --gateway=172.16.0.1 my_network
+
+docker network create --aux-address: Este comando se utiliza para asignar una dirección IP auxiliar a un contenedor en una red. Ejemplo: docker network create --aux-address="container_alias=172.16.0.5" my_network
+
+docker network create --label: Este comando se utiliza para agregar etiquetas a una red. Ejemplo: docker network create --label=my_label=value my_network
+
+docker network prune: Este comando se utiliza para eliminar las redes que no están en uso. Ejemplo: docker network prune
+
+docker network ls --filter: Este comando se utiliza para filtrar las redes existentes en Docker. Ejemplo: docker network ls --filter "driver=bridge"
+
+docker network connect --alias: Este comando se utiliza para asignar un alias a un contenedor en una red. Ejemplo: docker network connect --alias db my_network my_container
+
+docker network disconnect --force: Este comando se utiliza para desconectar un contenedor de una red, incluso si el contenedor está en ejecución. Ejemplo: docker network disconnect --force my_network my_container
+
+docker network create --opt: Este comando se utiliza para establecer opciones avanzadas para una red. Ejemplo: docker network create --opt com.docker.network.bridge.enable_ip_masquerade=true my_network
+
+docker network create --attachable: Este comando se utiliza para crear una red que se pueda conectar y desconectar de forma dinámica. Ejemplo: docker network create --attachable my_network
+
+
+docker service create: Este comando se utiliza para crear un servicio en Docker Swarm. Ejemplo: docker service create --name my_service --replicas 2 --publish 80:80 nginx
+
+docker service ls: Este comando se utiliza para ver los servicios existentes en Docker Swarm. Ejemplo: docker service ls
+
+docker service inspect: Este comando se utiliza para ver información detallada de un servicio en Docker Swarm. Ejemplo: docker service inspect my_service
+
+docker service update: Este comando se utiliza para actualizar un servicio existente en Docker Swarm. Ejemplo: docker service update --replicas 3 my_service
+
+docker service rm: Este comando se utiliza para eliminar un servicio en Docker Swarm. Ejemplo: docker service rm my_service
+
+docker service scale: Este comando se utiliza para escalar un servicio existente en Docker Swarm. Ejemplo: docker service scale my_service=5
+
+docker service logs: Este comando se utiliza para ver los logs de un servicio en Docker Swarm. Ejemplo: docker service logs my_service
+
+docker service ps: Este comando se utiliza para ver los contenedores asociados a un servicio en Docker Swarm. Ejemplo: `docker service ps my_service`
+
+docker service rollback: Este comando se utiliza para revertir un servicio a una versión anterior. Ejemplo: docker service rollback my_service
+
+docker service create --mount: Este comando se utiliza para montar un volumen en un servicio. Ejemplo: docker service create --name my_service --mount type=bind,src=/path/on/host,dst=/path/in/container nginx
+
+docker service create --constraint: Este comando se utiliza para agregar restricciones a un servicio. Ejemplo: docker service create --name my_service --constraint "node.role==manager" nginx
+
+docker service create --replicas-max-per-node: Este comando se utiliza para limitar el número de réplicas por nodo. Ejemplo: docker service create --name my_service --replicas-max-per-node 2 --replicas 4 nginx
+
+docker service create --update-delay: Este comando se utiliza para establecer un retraso entre actualizaciones de un servicio. Ejemplo: docker service create --name my_service --update-delay 30s nginx
+
+docker service create --update-parallelism: Este comando se utiliza para establecer el número de contenedores que se actualizarán al mismo tiempo. Ejemplo: docker service create --name my_service --update-parallelism 2 --replicas 4 nginx
+
+docker service create --update-failure-action: Este comando se utiliza para establecer la acción a tomar en caso de fallo en una actualización de un servicio. Ejemplo: docker service create --name my_service --update-failure-action rollback nginx
+
+docker service create --with-registry-auth: Este comando se utiliza para inyectar las credenciales de un registro en un servicio. Ejemplo: docker service create --name my_service --with-registry-auth nginx
+
+docker service create --endpoint-mode: Este comando se utiliza para establecer el modo de finalización de un servicio. Ejemplo: docker service create --name my_service --endpoint-mode dnsrr nginx
+
+docker service create --network: Este comando se utiliza para conectar un servicio a una red existente. Ejemplo: docker service create --name my_service --network my_network nginx
+
+docker service create --placement-pref: Este comando se utiliza para establecer preferencias de colocación para un servicio. Ejemplo: docker service create --name my_service --placement-pref "spread=node.labels.region" nginx
+
+docker service create --health-cmd: Este comando se utiliza para establecer un comando de salud para un servicio. Ejemplo: docker service create --name my_service --health-cmd "curl -f http://localhost || exit 1" nginx
+
+
+
+
+
+
+
+
+
+
+
+Crea un Dockerfile que partiendo de una imagen PHP genera una imagen que:
+1. Copia una aplicación en PHP a un directorio del contenedor. Esta aplicación se debe
+copiar directamente desde un directorio del anfitrión. Para facilitar las cosas, debe de ser
+una aplicación sencilla que no emplee bases de datos (ya que si no también habría que
+instalar un MySQL).
+Copy code
+FROM php:7.4-apache
+COPY /path/to/host/application /var/www/html/
+This Dockerfile starts with the php:7.4-apache image and copies the PHP application located at /path/to/host/application on the host machine to the /var/www/html/ directory in the container. Note that this assumes that the application does not require a database. If it does, additional steps would be necessary to install and configure the database within the container.
+
+
+
+
+Alesander Martinez
+Crea un Dockerfile que partiendo de una imagen PHP genera una imagen que:
+1. Copia una aplicación en PHP a un directorio del contenedor. Esta aplicación se debe
+copiar directamente desde un directorio del anfitrión. Para facilitar las cosas, debe de ser
+una aplicación sencilla que no emplee bases de datos (ya que si no también habría que
+instalar un MySQL).. Explicando los pasos y la ejecución de dicho dockerfile
+Copy code
+FROM php:7.4-apache
+COPY /path/to/host/application /var/www/html/
+This Dockerfile starts with the php:7.4-apache image as the base image, which contains a pre-installed version of PHP and Apache.
+The next step is to copy the PHP application from the host machine to the container. The COPY command is used to copy the application from the host machine directory /path/to/host/application to the /var/www/html/ directory inside the container.
+
+To build an image using this Dockerfile, navigate to the directory containing the Dockerfile and run the following command:
+
+Copy code
+docker build -t my-php-app .
+This command tells Docker to build an image using the Dockerfile in the current directory and to tag the image as my-php-app. The . at the end specifies the build context, which is the current directory.
+
+Once the image is built, you can run a container using the following command:
+
+Copy code
+docker run -p 80:80 my-php-app
+This command tells Docker to run a container using the my-php-app image and to map port 80 on the host to port 80 on the container. This allows you to access the PHP application through a web browser by navigating to http://localhost on the host machine.
+
+Note that this Dockerfile does not include any additional configuration for the Apache server or PHP, so you may need to include additional steps in the Dockerfile if your application has specific requirements.
+
+
+
+
+Alesander Martinez
+Crea un Dockerfile que partiendo de una imagen Ubuntu genera una imagen que:
+1. Instala Apache, de forma que se exponga el puerto 80.
+2. Instala PHP.
+3. Copia una aplicación web en PHP al directorio de Apache que expone las páginas web.
+Esta aplicación se debe descargar automáticamente mediante algún comando como git
+clone o curl. Para facilitar las cosas, debe de ser una aplicación sencilla que no emplee
+bases de datos (ya que si no también habría que instalar un MySQL).
+Copy code
+FROM ubuntu:latest
+
+# install Apache and PHP
+RUN apt-get update && \
+    apt-get install -y apache2 && \
+    apt-get install -y libapache2-mod-php && \
+    apt-get install -y php-mysql
+
+# download and copy PHP application to Apache web directory
+RUN apt-get install -y git
+RUN git clone https://github.com/username/my-php-app.git /var/www/html/my-php-app
+
+# configure Apache to use PHP application
+RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
+RUN a2enmod rewrite
+COPY apache-config.conf /etc/apache2/sites-available/000-default.conf
+RUN a2dissite 000-default
+RUN a2ensite 000-default
+
+# expose port 80
+EXPOSE 80
+
+# start Apache server
+CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+This Dockerfile starts with the ubuntu:latest image as the base image. Then it runs the commands to install Apache, PHP, git and setup the PHP application.
+
+The first step is to update the package manager and install Apache and PHP.
+The next step is to download the PHP application using git clone command, then it copies the application to the Apache web directory.
+
+The next step is to configure Apache to use the PHP application, it copies the apache-config.conf file which contains the apache configuration, then it enables the site and disables the default site.
+
+Finally, it exposes port 80 and starts the Apache server using the CMD command.
+
+To build an image using this Dockerfile, navigate to the directory containing the Dockerfile and run the following command:
+
+Copy code
+docker build -t my-php-app .
+This command tells Docker to build an image using the Dockerfile in the current directory and to tag the image as my-php-app. The . at the end specifies the build context, which is the current directory.
+
+Once the image is built, you can run a container using the following command:
+
+Copy code
+docker run -p 80:80 my-php-app
+This command tells Docker to run a container using the my-php-app image and to map port 80 on the host to port 80 on the container. This allows you to access the PHP application through a web browser by navigating to http://localhost on the host machine.
+
+Note that you should replace the git url and apache-config.conf path with the correct ones before build the image.
+
+
+
+
+Alesander Martinez
+3. Crea un contenedor para cada una de esas imágenes y verifica que funciona. Para y borra
+dicho contenedor.
+To create a container from the my-php-app image and run it, you can use the following command:
+
+Copy code
+docker run -p 80:80 --name my-php-container -d my-php-app
+This command tells Docker to run a container named my-php-container using the my-php-app image, and to map port 80 on the host to port 80 on the container. The -d option runs the container in detached mode, which allows the container to run in the background.
+
+To verify that the container is running and the PHP application is working, you can use the following command to check the list of running containers:
+
+Copy code
+docker ps
+This will display a list of running containers, including the my-php-container and its current status.
+
+To access the PHP application, you can open a web browser and navigate to http://localhost.
+
+To stop and remove the container, you can use the following command:
+
+Copy code
+docker stop my-php-container && docker rm my-php-container
+This command stops the my-php-container and removes it.
+
+It is important to note that while stopping the container, the data and configurations inside the container will be deleted, if you want to keep that data you should use the command docker container commit to create a new image and then use it again later with the same configurations and data.
+
+
+
+
+Alesander Martinez
+4. Emplea un comando para lanzar 20 contenedores de la segunda imagen, cada uno mapeado
+en un puerto distinto del anfitrión. Cuando veas que funcionan, para y borra dichos
+contenedores
+To launch 20 containers from the my-php-app image, each mapped to a different port on the host, you can use a loop and the docker run command in the following way:
+
+Copy code
+for i in {1..20}; do
+    docker run -p 8$i:80 --name my-php-container-$i -d my-php-app
+done
+This command uses a loop to run the docker run command 20 times, each time using a different host port (80, 81, 82, ...) and a different container name (my-php-container-1, my-php-container-2, my-php-container-3, ...).
+
+To verify that the containers are running and the PHP applications are working, you can use the following command to check the list of running containers:
+
+Copy code
+docker ps
+This will display a list of running containers, including the my-php-container-* and their current status.
+
+To access the PHP application in each container, you can open a web browser and navigate to http://localhost:8X where X is the number of the container.
+
+To stop and remove the containers, you can use the following command:
+
+Copy code
+for i in {1..20}; do
+    docker stop my-php-container-$i && docker rm my-php-container-$i
+done
+This command uses a loop to stop and remove the containers created before.
+
+It is important to note that while stopping the container, the data and configurations inside the container will be deleted, if you want to keep that data you should use the command docker container commit to create a new image and then use it again later with the same configurations and data.
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,38 @@
+El comando : netstat
+netstat varía un poco en la sintaxis respecto a lsof, pero creo que muestra  parámetros más sencillos de memorizar  A partir de ahora no os olvidéis de la palabra putona, que hace referencia a las siguientes características:
+
+p: Te muestra las conexiones para el protocolo especificado,  que podría ser ser TCP o UDP.
+u: Te lista todos los puertos UDP.
+t: Te lista todos los puertos TCP.
+o: Te muestra los timers.
+n: Te muestra el numero de puerto.
+a: Te visualiza todas las conexiones activas del sistema.
+Así, ponemos el comando y con una tubería podemos obtener información sobre un determinado puerto, por ejemplo
+
+
+$ netstat -putona | grep numero-de-puerto
+
+
+
+Tipos de puertos abiertos en Ubuntu
+El comando: lsof
+lsof es nativo de Linux, y por lo tanto cualquier usuario de Linux lo debería conocer. Al usar este comando para ver los puertos usados destacaremos el  el nombre de la aplicación (por ejemplo, sshd), el socket del programa (en este caso la dirección IP 10.86.251.138 asociada al puerto 22 que está a la ESCUCHA) y el identificador del proceso (que sería 85379).
+
+1
+2
+$ sudo lsof -i -P -n
+$ sudo lsof -i -P -n | grep LISTEN
+
+
+El comando:  nmap
+Nmap nos permite realizar multitud de escaneos en nuestro sistema . Para ponerlo en el shell debemos seguir esta secuencia  nmap -sX -O Y, siendo X el valor T o U para conexión TCP o UDP respectivamente y el valor Y la dirección IP de nuestra máquina (o localhost para abreviar). por ejemplo.
+
+1
+2
+3
+4
+</pre>
+$ sudo nmap -sU -O localhost
+$ sudo nmap -sT -O 192.168.0.1
+<pre>
+Con estas 3 opciones disponemos de herramientas suficientes para determinar los puertos abiertos de vuestra máquina.

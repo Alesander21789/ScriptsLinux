@@ -1,0 +1,113 @@
+imageinfo: Este comando se utiliza para obtener información básica sobre la imagen de memoria, como el sistema operativo, el tamaño de la memoria y el formato de la imagen. Ejemplo de uso: volatility -f memory.dmp imageinfo
+
+pslist: Este comando se utiliza para obtener una lista de procesos activos en la imagen de memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 pslist
+
+pstree: Este comando se utiliza para obtener una representación en árbol de los procesos activos en la imagen de memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 pstree
+
+dlllist: Este comando se utiliza para obtener una lista de las DLLs cargadas en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 dlllist -p 456
+
+handles: Este comando se utiliza para obtener una lista de los handles abiertos en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 handles -p 456
+
+netscan: Este comando se utiliza para escanear la memoria en busca de tablas de conexiones TCP y UDP. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 netscan
+
+connscan: Este comando se utiliza para escanear la memoria en busca de conexiones TCP y UDP activas. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 connscan
+
+sockscan: Este comando se utiliza para escanear la memoria en busca de conexiones SOCKS. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 sockscan
+
+cmdscan: Este comando se utiliza para escanear la memoria en busca de comandos ejecutados en una sesión de cmd.exe. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 cmdscan
+
+malfind: Este comando se utiliza para buscar procesos maliciosos o sospechosos en la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 malfind
+
+
+hashdump: Este comando se utiliza para extraer las contraseñas hasheadas del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 hashdump
+
+lsadump: Este comando se utiliza para extraer las credenciales de los usuarios del sistema, incluidos los hashes de contraseñas de los usuarios. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 lsadump
+
+vadinfo: Este comando se utiliza para obtener información sobre el árbol VAD (Virtual Address Descriptor) de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 vadinfo -p 456
+
+vaddump: Este comando se utiliza para extraer un archivo de un espacio de direcciones virtual específico de un proceso. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 vaddump -p 456 -D dump/
+
+svcscan: Este comando se utiliza para escanear la memoria en busca de servicios del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 svcscan
+
+
+modscan: Este comando se utiliza para escanear la memoria en busca de módulos del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 modscan
+
+verinfo: Este comando se utiliza para obtener información de versiones de los módulos cargados en el sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 verinfo
+
+timeliner: Este comando se utiliza para generar una línea de tiempo de eventos del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 timeliner -f timeline.csv
+
+privs: Este comando se utiliza para obtener una lista de privilegios de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 privs -p 456
+
+callbacks: Este comando se utiliza para obtener una lista de llamadas de devolución registradas en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 callbacks -p 456
+
+
+messagehooks: Este comando se utiliza para obtener una lista de los ganchos de mensajes registrados en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 messagehooks -p 456
+
+atoms: Este comando se utiliza para obtener una lista de los átomos registrados en el sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 atoms
+
+gahti: Este comando se utiliza para obtener información sobre los objetos de ventana de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 gahti -p 456
+
+gditimers: Este comando se utiliza para obtener una lista de los temporizadores GDI registrados en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 gditimers -p 456
+
+desktops: Este comando se utiliza para obtener una lista de los escritorios registrados en el sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 desktops
+
+winevt: Este comando se utiliza para extraer los eventos del registro de eventos de Windows de la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 winEvtLogs
+
+evtlogs: Este comando se utiliza para extraer los eventos del registro de eventos de sistema de la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 evtlogs
+
+iehistory: Este comando se utiliza para extraer la información de la caché de historial de Internet Explorer de la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 iehistory
+
+symlinkscan: Este comando se utiliza para buscar objetos de símbolo enlazados en la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 symlinkscan
+
+raw2dmp: Este comando se utiliza para convertir una imagen de memoria raw a un archivo de volcado de memoria (dmp). Ejemplo de uso: volatility --plugins=path/to/plugins raw2dmp -f raw_image.raw -o memory.dmp
+
+memdump: Este comando se utiliza para extraer una porción específica de la memoria a un archivo. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 memdump -p 456 -D dump/
+
+memmap: Este comando se utiliza para generar un mapa de la memoria del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 memmap
+
+pagefileparser: Este comando se utiliza para analizar el archivo de paginación del sistema y buscar información importante. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 pagefileparser
+
+shellbags: Este comando se utiliza para extraer información de los bolsos de la shell de Windows. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 shellbags
+
+shimcachemem: Este comando se utiliza para analizar la memoria de la caché de Shim de Windows para detectar modificaciones de la configuración del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 shimcachemem
+
+registryparser: Este comando se utiliza para analizar el registro de Windows y buscar información importante. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 registryparser
+
+registrykey: Este comando se utiliza para extraer claves específicas del registro. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 registrykey -K "HKLM\System\ControlSet001\Control\Session Manager"
+
+registrydump: Este comando se utiliza para extraer todas las claves del registro en un archivo. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 registrydump -D dump/
+
+registryvalues: Este comando se utiliza para extraer valores específicos del registro. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 registryvalues -K "HKLM\System\ControlSet001\Control\Session Manager"
+
+registrysummary: Este comando se utiliza para generar un resumen de las claves y valores del registro. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 registrysummary
+
+
+wndscan: Este comando se utiliza para buscar objetos de ventana en la memoria. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 wndscan
+
+timers: Este comando se utiliza para obtener una lista de temporizadores de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 timers -p 456
+
+clipboard: Este comando se utiliza para extraer la información del portapapeles. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 clipboard
+
+privilege: Este comando se utiliza para obtener una lista de privilegios activos en el sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 privilege
+
+callstacks: Este comando se utiliza para obtener las pilas de llamadas de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 callstacks -p 456
+
+threads: Este comando se utiliza para obtener una lista de los hilos de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 threads -p 456
+
+idt: Este comando se utiliza para obtener la tabla de interrupciones del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 idt
+
+gdt: Este comando se utiliza para obtener la tabla de descriptores de segmento del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 gdt
+
+ldrmodules: Este comando se utiliza para obtener una lista de módulos cargados en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 ldrmodules -p 456
+
+yarascan: Este comando se utiliza para buscar patrones de bytes en la memoria utilizando un archivo de reglas Yara. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 yarascan -Y "path/to/yara_rules.yar"
+
+dlllist: Este comando se utiliza para obtener una lista de las DLLs cargadas en un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 dlllist -p 456
+
+handles: Este comando se utiliza para obtener una lista de los handles abiertos en el sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 handles
+
+psscan: Este comando se utiliza para escanear la memoria en busca de procesos sospechosos o maliciosos. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 psscan
+
+getsids: Este comando se utiliza para obtener una lista de los SIDs de los usuarios del sistema. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 getsids
+
+envars: Este comando se utiliza para obtener una lista de las variables de entorno de un proceso específico. Ejemplo de uso: volatility -f memory.dmp --profile=Win7SP1x64 envars -p 456
