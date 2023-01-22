@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Cambiar idioma a español
+sudo dpkg-reconfigure locales
+sudo update-locale LANG=es_ES.UTF-8
+
+# Instalar kali-desktop-es
+sudo apt-get install kali-desktop-es -y
+sudo dpkg-reconfigure kali-desktop-es
+
+# Cambiar configuración de teclado a español
+sudo dpkg-reconfigure keyboard-configuration
+
+# Reiniciar sistema para aplicar los cambios
+sudo reboot
