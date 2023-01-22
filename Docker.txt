@@ -486,9 +486,44 @@ docker run -d -p 8000:8000 my-php-app
 Una vez hecho esto, se podra acceder a la aplicacion en PHP desde el navegador web en la dirección http://localhost:8000
 
 
+Para crear un repositorio Git en Ubuntu y subir un archivo a él, puedes seguir los siguientes pasos:
+
+Instalar Git en Ubuntu:
+Copy code
+sudo apt-get update
+sudo apt-get install git
+Crear un directorio para tu repositorio y cambiarte a ese directorio:
+Copy code
+mkdir my-repo
+cd my-repo
+Inicializar el repositorio Git:
+Copy code
+git init
+Crear un archivo en el directorio del repositorio (por ejemplo, "my-file.txt"):
+Copy code
+echo "This is my file" > my-file.txt
+Agregar el archivo al repositorio y hacer un commit:
+Copy code
+git add my-file.txt
+git commit -m "Initial commit"
+Crear un repositorio en línea en algún servicio como GitHub, GitLab o Bitbucket y obtener la URL del repositorio remoto.
+Asociar tu repositorio local con el repositorio remoto:
+Copy code
+git remote add origin https://github.com/username/my-repo.git
+Subir los cambios al repositorio remoto:
+Copy code
+git push -u origin master
+Con esto ya se subiria el archivo creado a tu repositorio remoto, cualquier cambio que hagas en el futuro en ese repositorio local y quieras subir al remoto podras hacerlo con el comando git push
 
 
 
+
+
+para que sirve el git commit y el git push
+
+git commit es un comando utilizado en Git para guardar los cambios realizados en un repositorio local en un punto específico del historial. Cuando se realiza un commit, se registran todos los archivos que se han modificado y/o agregado al repositorio, junto con un mensaje que describe los cambios realizados. El commit genera un "snapshot" del estado actual del repositorio y permite volver a ese estado en cualquier momento en el futuro.
+
+git push es un comando utilizado para enviar los cambios de un repositorio local a un repositorio remoto. El comando envía todos los commits realizados en el repositorio local al repositorio remoto, actualizando el estado del repositorio remoto para reflejar el estado del repositorio local. Es importante tener en cuenta que antes de utilizar git push, debes hacer un commit con todos los cambios realizados en el repositorio local, de lo contrario no se podrán subir los cambios al repositorio remoto.
 
 
 
