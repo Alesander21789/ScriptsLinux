@@ -1,0 +1,42 @@
+a) Para eliminar las particiones existentes y crear dos particiones de 20MiB en un pendrive, se puede utilizar el comando "fdisk" en un sistema operativo de Linux. El proceso sería el siguiente:
+
+Conecte el pendrive a su computadora.
+Abra una terminal y ejecute el comando "sudo fdisk /dev/sdb" (suponiendo que el pendrive está en la unidad sdb).
+Dentro de fdisk, utilice la opción "d" para eliminar las particiones existentes.
+Utilice la opción "n" para crear una nueva partición. Elige "p" para partición primaria y "1" para el número de partición.
+Ingresa el tamaño de la partición en bloques (2010241024/512 =40960)
+Utilice la opción "n" para crear una segunda partición. Elige "p" para partición primaria y "2" para el número de partición.
+Ingresa el tamaño de la partición en bloques (2010241024/512 =40960)
+Utilice la opción "w" para escribir los cambios y salir de fdisk.
+Una vez que las particiones estén creadas, puede montarlas con los comandos "sudo mount /dev/sdb1 /mnt/part1" y "sudo mount /dev/sdb2 /mnt/part2" y añadir los ficheros que desee en cada una de las particiones.
+
+b) Es posible hacer una imagen parcial de un pendrive, pero dependerá de cómo estén organizadas las particiones y los datos en el dispositivo. Por ejemplo, si las particiones están alineadas y contienen solo datos, se puede usar el comando "dd" para crear una imagen solo de las particiones deseadas. Sin embargo, si las particiones no están alineadas o el dispositivo contiene sistemas de archivos o configuraciones específicas, es posible que sea necesario crear una imagen completa del dispositivo.
+
+
+Para crear una imagen parcial de un pendrive que incluya ambas particiones utilizando "dc3dd", el proceso sería el siguiente:
+
+Conecte el pendrive a su computadora.
+Abra una terminal y verifica las particiones existentes con el comando "sudo fdisk -l /dev/sdb" (suponiendo que el pendrive está en la unidad sdb)
+Utilice el comando "sudo dc3dd hh:mm if=/dev/sdb of=nombre_imagen.img bs=20M count=2" para crear una imagen parcial de las particiones deseadas.
+El parámetro "hh:mm" representa el inicio de la partición en bloques. Los valores para "count" dependen del tamaño que quieres incluir en la imagen.
+Es importante tener en cuenta que al crear una imagen parcial, es posible que algunos datos no se copien correctamente o que la imagen no sea utilizable. Asegúrate de verificar la integridad de la imagen antes de usarla.
+
+
+El parámetro "hh:mm" es utilizado para especificar el inicio de la partición en bloques. Este parámetro es necesario para que "dc3dd" sepa desde donde debe comenzar a crear la imagen parcial. El valor de "hh" representa el número de bloques de inicio de la primera partición, mientras que el valor de "mm" representa el número de bloques de inicio de la segunda partición.
+
+Para encontrar el valor de "hh" y "mm" de las particiones, puedes usar el comando "sudo fdisk -l /dev/sdb" (suponiendo que el pendrive está en la unidad sdb) y buscar la columna "Start" en la salida del comando. El número mostrado en esa columna es el valor en bloques de inicio de la partición.
+
+El parámetro "count" es utilizado para especificar cuantos bloques debe incluir "dc3dd" en la imagen parcial. El valor de "count" depende del tamaño que quieres incluir en la imagen. Por ejemplo, si quieres incluir 20MB en la imagen, entonces el valor de "count" sería (2010241024/512).
+
+Es importante tener en cuenta que al crear una imagen parcial, es posible que algunos datos no se copien correctamente o que la imagen no sea utilizable. Asegúrate de verificar la integridad de la imagen antes de usarla.
+
+
+Para calcular el número de bloques necesarios para almacenar una cantidad específica de megabytes (MB), se utiliza la siguiente fórmula:
+
+(MB * 1024 * 1024) / tamaño del bloque
+
+Donde el tamaño del bloque depende del sistema de archivos en uso. En el caso de la mayoría de los sistemas de archivos modernos, el tamaño del bloque es de 512 bytes. Por lo tanto, para calcular el número de bloques necesarios para almacenar 20MB en un sistema de archivos con bloques de 512 bytes, utilizarías la fórmula de la siguiente manera:
+
+(20 * 1024 * 1024) / 512 = 40960 bloques
+
+Es importante tener en cuenta que este cálculo es aproximado y puede variar dependiendo del sistema de archivos y la configuración del dispositivo. Es recomendable verificar la configuración específica del dispositivo antes de utilizar la fórmula.
