@@ -326,6 +326,171 @@ It is important to note that while stopping the container, the data and configur
 
 
 
+Docker
+1. Crea un Dockerfile que partiendo de una imagen PHP genera una imagen que:
+1. Copia una aplicación en PHP a un directorio del contenedor. Esta aplicación se debe
+copiar directamente desde un directorio del anfitrión. Para facilitar las cosas, debe de ser
+una aplicación sencilla que no emplee bases de datos (ya que si no también habría que
+instalar un MySQL).
+Copy code
+FROM php:7.4-apache
+COPY /path/to/host/app /var/www/html/
+This Dockerfile starts with the official PHP 7.4 image with Apache server, then copies the PHP application located in /path/to/host/app on the host machine to the /var/www/html/ directory within the container. This directory is the default document root for Apache server, so the application will be accessible when the container is running.
+
+
+
+
+Alesander Martinez
+2. Crea un Dockerfile que partiendo de una imagen Ubuntu genera una imagen que:
+1. Instala Apache, de forma que se exponga el puerto 80.
+2. Instala PHP.
+3. Copia una aplicación web en PHP al directorio de Apache que expone las páginas web.
+Esta aplicación se debe descargar automáticamente mediante algún comando como git
+clone o curl. Para facilitar las cosas, debe de ser una aplicación sencilla que no emplee
+bases de datos (ya que si no también habría que instalar un MySQL).
+Copy code
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y apache2 \
+    && apt-get install -y php libapache2-mod-php
+EXPOSE 80
+RUN rm -rf /var/www/html/
+RUN git clone https://github.com/user/example-php-app.git /var/www/html
+This Dockerfile starts with the latest version of Ubuntu, then it runs apt-get command to install Apache2 and PHP. It also exposes port 80 which is used by Apache. Next, it removes the default html folder in apache and clones a PHP application from a git repository to the /var/www/html directory. Now when the container runs it will have Apache server running on port 80 and the PHP application from git cloned to the /var/www/html directory, which is the root directory of Apache.
+
+
+
+
+Alesander Martinez
+2. Crea un Dockerfile que partiendo de una imagen Ubuntu genera una imagen que:
+1. Instala Apache, de forma que se exponga el puerto 80.
+2. Instala PHP.
+3. Copia una aplicación web en PHP al directorio de Apache que expone las páginas web.
+Esta aplicación se debe descargar automáticamente mediante algún comando como git
+clone o curl. Para facilitar las cosas, debe de ser una aplicación sencilla que no emplee
+bases de datos (ya que si no también habría que instalar un MySQL).
+Copy code
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y apache2 \
+    && apt-get install -y php libapache2-mod-php curl
+EXPOSE 80
+RUN rm -rf /var/www/html/
+RUN curl -sS https://raw.githubusercontent.com/user/example-php-app/master/index.php > /var/www/html/index.php
+This Dockerfile starts with the latest version of Ubuntu, then it runs apt-get command to install Apache2, PHP and curl. It also exposes port 80 which is used by Apache. Next, it removes the default html folder in apache and it uses curl to download the php file from a git repository and store it in /var/www/html directory. Now when the container runs it will have Apache server running on port 80 and the PHP application from git cloned to the /var/www/html directory, which is the root directory of Apache.
+
+
+
+
+Alesander Martinez
+2. Crea un Dockerfile que partiendo de una imagen Ubuntu genera una imagen que:
+1. Instala Apache, de forma que se exponga el puerto 80.
+2. Instala PHP.
+3. Copia una aplicación web en PHP al directorio de Apache que expone las páginas web.
+Esta aplicación se debe descargar automáticamente mediante algún comando como git
+clone o curl. Para facilitar las cosas, debe de ser una aplicación sencilla que no emplee
+bases de datos (ya que si no también habría que instalar un MySQL).
+Copy code
+FROM ubuntu:latest
+RUN apt-get update && apt-get install -y apache2 \
+    && apt-get install -y php libapache2-mod-php curl git
+EXPOSE 80
+RUN rm -rf /var/www/html/
+RUN git clone https://github.com/user/example-php-app.git /var/www/html
+This Dockerfile starts with the latest version of Ubuntu, then it runs apt-get command to install Apache2, PHP, curl and git. It also exposes port 80 which is used by Apache. Next, it removes the default html folder in apache and clones a PHP application from a git repository to the /var/www/html directory. Now when the container runs it will have Apache server running on port 80 and the PHP application from git cloned to the /var/www/html directory, which is the root directory of Apache.
+
+
+
+
+Alesander Martinez
+Crea un contenedor para cada una de esas imágenes y verifica que funciona. Para y borra
+dicho contenedor.
+To create a container from an image, you can use the docker run command. For example, to create a container from the first image you can use the following command:
+
+Copy code
+docker run -p 80:80 --name my-php-app -d php:7.4-apache
+This will create a container with the name "my-php-app" from the PHP image, and it will map the host's port 80 to the container's port 80, so the application will be accessible on port 80 of the host machine. The -d flag runs the container in detached mode, so it runs in the background.
+
+To create a container from the second image you can use the following command:
+
+Copy code
+docker run -p 80:80 --name my-php-app -d my-php-app-image
+This will create a container with the name "my-php-app" from the image "my-php-app-image" that was built using the second Dockerfile, and it will map the host's port 80 to the container's port 80, so the application will be accessible on port 80 of the host machine. The -d flag runs the container in detached mode, so it runs in the background.
+
+To check if the container is running, you can use the docker ps command. It should display the container in the list of running containers.
+
+To verify that the application is working, you can open a web browser and navigate to http://localhost, you should see the application running.
+
+To stop the container, you can use the docker stop command followed by the container's name or ID. For example:
+
+Copy code
+docker stop my-php-app
+To delete the container, you can use the docker rm command followed by the container's name or ID. For example:
+
+Copy code
+docker rm my-php-app
+Note that if the container is running, you'll have to stop it before deleting it.
+
+
+
+
+Alesander Martinez
+Emplea un comando para lanzar 20 contenedores de la segunda imagen, cada uno mapeado
+en un puerto distinto del anfitrión. Cuando veas que funcionan, para y borra dichos
+contenedores.
+You can use a bash script to launch 20 containers from the second image, each one mapped to a different port on the host machine. Here's an example of a script that does that:
+
+Copy code
+#!/bin/bash
+for i in {1..20}; do
+    port=$((8000+$i))
+    container_name=my-php-app-$i
+    echo "Starting container $container_name on port $port"
+    docker run -p $port:80 --name $container_name -d my-php-app-image
+done
+This script uses a for loop to iterate 20 times, and for each iteration it assigns a new port to the variable port by adding $i to 8000. It also assigns a new container name to the variable container_name by adding $i to the container name. Then it uses the docker run command to create a new container from the image "my-php-app-image" and maps the host's port $port to the container's port 80.
+
+You can execute this script by running bash script.sh
+
+To check if the containers are running, you can use the docker ps command. It should display the 20 containers in the list of running containers.
+
+To verify that the application is working, you can open a web browser and navigate to http://localhost:8000, http://localhost:8001, http://localhost:8002 ... http://localhost:8019, you should see the application running.
+
+To stop the containers, you can use the docker stop command followed by the name of all the containers. For example:
+
+Copy code
+docker stop my-php-app-1 my-php-app-2 my-php-app-3 .... my-php-app-20
+To delete the containers, you can use the docker rm command followed by the name of all the containers. For example:
+
+Copy code
+docker rm my-php-app-1 my-php-app-2 my-php-app-3 .... my-php-app-20
+Note that if the containers are running, you'll have to stop them before deleting them.
+
+It's also possible to use a single command to stop and remove all the containers by using the command
+
+Copy code
+docker container ls -q -a | xargs docker container rm -f
+This command will stop and remove all the containers in one go.
+
+
+Dockerfile para generar una imagen PHP con una aplicación sencilla que no emplee bases de datos y que se ejecute en PHP y muestre en pantalla:
+
+Copy code
+FROM php:7.4-cli
+COPY /path/to/app/on/host /var/www/html
+CMD ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"]
+En este caso, se está utilizando la imagen base de PHP 7.4 en modo CLI, luego se copia la aplicación desde el directorio del anfitrión al directorio /var/www/html del contenedor. El comando CMD especifica que se ejecute el comando php -S 0.0.0.0:8000 -t /var/www/html, lo que inicia un servidor web interno de PHP en el puerto 8000 y utilizando el directorio /var/www/html como raíz del servidor.
+
+Para crear un contenedor a partir de esta imagen y exponer el puerto 8000 del contenedor al puerto 8000 del anfitrión, se puede utilizar el comando:
+
+Copy code
+docker run -d -p 8000:8000 my-php-app
+Una vez hecho esto, se podra acceder a la aplicacion en PHP desde el navegador web en la dirección http://localhost:8000
+
+
+
+
+
+
+
 
 
 
