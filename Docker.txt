@@ -477,6 +477,20 @@ Copy code
 FROM php:7.4-cli
 COPY /path/to/app/on/host /var/www/html
 CMD ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"]
+
+
+
+La línea CMD ["php", "-S", "0.0.0.0:8000", "-t", "/var/www/html"] en un Dockerfile especifica el comando que se ejecutará cuando se inicie el contenedor. En este caso, el comando es php -S 0.0.0.0:8000 -t /var/www/html.
+
+php es el comando para iniciar el servidor web interno de PHP.
+-S es una opción que indica que se debe iniciar un servidor web interno en lugar de procesar scripts de forma normal.
+0.0.0.0:8000 es la dirección IP y el puerto en el que se escuchará el servidor web interno. 0.0.0.0 significa que el servidor escuchará en todas las direcciones IP disponibles en el host.
+-t es una opción que especifica la raíz del servidor web, en este caso es "/var/www/html".
+En resumen, esta línea ejecuta el comando para iniciar un servidor web interno de PHP en el puerto 8000 y utilizando el directorio "/var/www/html" como raíz del servidor, de esta manera se podra acceder a la aplicacion en PHP desde el navegador web en la dirección http://localhost:8000.
+
+
+
+
 En este caso, se está utilizando la imagen base de PHP 7.4 en modo CLI, luego se copia la aplicación desde el directorio del anfitrión al directorio /var/www/html del contenedor. El comando CMD especifica que se ejecute el comando php -S 0.0.0.0:8000 -t /var/www/html, lo que inicia un servidor web interno de PHP en el puerto 8000 y utilizando el directorio /var/www/html como raíz del servidor.
 
 Para crear un contenedor a partir de esta imagen y exponer el puerto 8000 del contenedor al puerto 8000 del anfitrión, se puede utilizar el comando:
@@ -526,6 +540,38 @@ git commit es un comando utilizado en Git para guardar los cambios realizados en
 git push es un comando utilizado para enviar los cambios de un repositorio local a un repositorio remoto. El comando envía todos los commits realizados en el repositorio local al repositorio remoto, actualizando el estado del repositorio remoto para reflejar el estado del repositorio local. Es importante tener en cuenta que antes de utilizar git push, debes hacer un commit con todos los cambios realizados en el repositorio local, de lo contrario no se podrán subir los cambios al repositorio remoto.
 
 
+
+y no tengo que generar un token de githab
+No necesariamente, si estas creando un repositorio público en GitHub, no necesitas un token para poder subir tus cambios al repositorio remoto. Sin embargo, si estas creando un repositorio privado o si quieres utilizar una cuenta diferente a la que estas utilizando para autenticarte en tu sistema, tendrás que generar un token de acceso personal de GitHub y utilizarlo para autenticarte en el repositorio remoto.
+
+Para generar un token de acceso personal en GitHub, debes ir a la sección de "Settings" en tu perfil, luego a "Developer Settings" y luego a "Personal Access Tokens", allí podrás generar un token y configurar los permisos necesarios para el mismo. Una vez generado, podrás utilizarlo para autenticarte en el repositorio remoto.
+
+En cualquier caso, si utilizas HTTPS para conectarte al repositorio remoto en lugar de SSH, te pedirá tus credenciales de acceso cada vez que hagas un push.
+
+
+
+
+Alesander Martinez
+como lo haria
+Para subir tus cambios a un repositorio remoto en GitHub mediante HTTPS, debes seguir los siguientes pasos:
+
+Crear un repositorio en GitHub y obtener la URL del repositorio remoto. La URL debe tener el siguiente formato: https://github.com/username/repository.git
+
+Inicializar un repositorio local en tu sistema y agregar los archivos que deseas subir al repositorio remoto.
+
+Copy code
+git init
+git add .
+Realizar un commit con un mensaje que describa los cambios realizados:
+Copy code
+git commit -m "Initial commit"
+Asociar tu repositorio local con el repositorio remoto:
+Copy code
+git remote add origin https://github.com/username/repository.git
+Subir los cambios al repositorio remoto:
+Copy code
+git push -u origin master
+Cada vez que realices un cambio en tu repositorio local y quieras subirlo al remoto, podrás hacerlo con el comando git push. Te pedirá tus credenciales de acceso a GitHub y una vez que proporciones las correctas, se subirán los cambios al repositorio remoto.
 
 
 
