@@ -570,7 +570,7 @@ Copy code
 git remote add origin https://github.com/username/repository.git
 Subir los cambios al repositorio remoto:
 Copy code
-git push -u origin master
+ 0.0.0 significa que escuchará en todas las direcciones ip disponibles en el host
 Cada vez que realices un cambio en tu repositorio local y quieras subirlo al remoto, podrás hacerlo con el comando git push. Te pedirá tus credenciales de acceso a GitHub y una vez que proporciones las correctas, se subirán los cambios al repositorio remoto.
 
 
