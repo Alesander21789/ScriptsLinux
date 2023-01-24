@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Update package list and upgrade installed packages
+sudo apt-get update && sudo apt-get upgrade -y
+
+# Install shellcheck package and its dependencies
+sudo apt-get install -y shellcheck
+
+# Confirm installation
+if command -v shellcheck > /dev/null; then
+    echo "Shellcheck has been successfully installed. Version: $(shellcheck --version)"
+else
+    echo "Installation failed. Please check for errors."
+fi
