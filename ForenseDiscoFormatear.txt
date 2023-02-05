@@ -1,0 +1,168 @@
+
+
+Parte 1: Identificación y verificación del disco:
+
+Abre una terminal en tu sistema Linux.
+
+Usa el comando lsblk para ver todos los dispositivos de almacenamiento conectados a tu sistema y determinar cuál es el disco que deseas formatear. Toma nota del nombre del disco, por ejemplo, /dev/sdb.
+
+Usa el comando ls -l /dev/disk/by-id/ para verificar si el disco que deseas formatear está en uso. Si el disco no está en uso, continuarás con los siguientes pasos. De lo contrario, debes asegurarte de que todos los procesos relacionados con ese disco se hayan detenido antes de continuar.
+
+Parte 2: Acceso a fdisk:
+
+Escribe en la terminal sudo fdisk /dev/sdb (reemplaza /dev/sdb con el nombre del disco que identificaste en el paso 2).
+
+Una vez en fdisk, verás una prompt en la terminal.
+
+Parte 3: Creación de una partición:
+
+Escribe n en la prompt de fdisk para crear una nueva partición.
+
+Especifica el tipo de partición que deseas crear, por ejemplo, p para una partición primaria o e para una partición extendida.
+
+Especifica el número de la partición que deseas crear, por ejemplo, 1.
+
+Especifica el tamaño de la partición, por ejemplo, +100G para una partición de 100 GB. Si no especificas un tamaño, se usará el tamaño restante del disco.
+
+Especifica el primer sector, en general es el valor por defecto.
+
+Verifica que la partición se haya creado correctamente usando el comando p para listar las particiones del disco.
+
+Este es el primer paso en el proceso de formatear un disco en un sistema Linux usando fdisk. Continuaremos con los pasos restantes en una respuesta posterior.
+
+
+
+
+
+Parte 4: Formateo de la partición:
+
+Escribe t en la prompt de fdisk para cambiar el tipo de sistema de archivos de la partición.
+
+Especifica el número de la partición que deseas formatear, por ejemplo, 1.
+
+Especifica el tipo de sistema de archivos que deseas usar, por ejemplo, 83 para el sistema de archivos Linux.
+
+Verifica que el tipo de sistema de archivos haya cambiado correctamente usando el comando p para listar las particiones del disco.
+
+Parte 5: Guardado de los cambios y salida de fdisk:
+
+Escribe w en la prompt de fdisk para guardar los cambios y salir de fdisk.
+Parte 6: Creación del sistema de archivos:
+
+Usa el comando sudo mkfs -t ext4 /dev/sdb1 (reemplaza /dev/sdb1 con el nombre de la partición que formateaste) para crear un sistema de archivos en la partición.
+
+Verifica que el sistema de archivos se haya creado correctamente usando el comando sudo blkid /dev/sdb1.
+
+Parte 7: Montaje de la partición:
+
+Crea un directorio para montar la partición usando el comando sudo mkdir /mnt/new_partition.
+
+Monta la partición en el directorio recién creado usando el comando sudo mount /dev/sdb1 /mnt/new_partition.
+
+Verifica que la partición se haya montado correctamente usando el comando df -h.
+
+Estos son los pasos completos para formatear un disco en un sistema Linux usando fdisk. Espero que te sea útil. ¡Buena suerte!
+
+
+
+
+
+Parte 8: Verificación y uso de la partición:
+
+Verifica que puedes escribir en la partición montada usando el comando sudo touch /mnt/new_partition/test_file.
+
+Verifica que puedes ver el archivo creado en la partición usando el comando ls /mnt/new_partition/.
+
+Usa la partición para almacenar archivos y carpetas, copiarlos, eliminarlos, etc.
+
+Parte 9: Desmontaje de la partición:
+
+Desmonta la partición antes de retirar el disco físicamente o antes de apagar el sistema usando el comando sudo umount /mnt/new_partition.
+
+Verifica que la partición se haya desmontado correctamente usando el comando df -h.
+
+
+Comando lsblk -> Ver discos, o lsblk -f ver más información.
+Comando fdisk -> Sirve para listar las particiones y gestionarlas.
+{
+fidks -l | grep sdb1
+fidks -l -> Ver todas las particicones.
+fidsk -l /dev/sdb -> Un disco en especifico.
+fidks /dev/sdb -> Disco especifico.
+}
+Comando umount -> Con este comnado desmontamos un disco
+{
+umount /media/usb -l -> Seguro.
+umount /media/usb
+}
+Comando dmesg -> Es un buffer de mensages generados durante el arranque de el sistema.
+{
+dmesg | less
+dmesg | grep -i usb
+}
+Comando lsusb -> Lista los usb.
+
+Se sule crear para montar subdirectorios en /mmt o /media, cada dispositivo que se monta en el sistema tiene información sobre su montaje en /dev.
+
+Comando mount -> Sirve para montar discos
+{
+mount -t <fstype> -o <permisos> <device> <dir>
+En cuanto al párametro que hay que ponder en el tipo de fichero, se puede ver en /lib/modules/$(uname -r)/kernel/fs
+Hay un fichero en /etc/fstab donde se configuran los sitemas de ficheros que se montan alarrancar el sistema
+Para ver informacion de las particciones montadas se puede ver en el fichero /etc/mtab
+}
+
+Comando script-> para guardar el hsitorial de comandos.
+Desactivar automontado -> sudo service udisks2 stop o sudo systemctl stop udisks2.service
+Comando blkid -> mustra los atributos como el uuid y el tipo de arvhivos de los dispositivos de bloque.
+{
+blkid | grep sdb | grep UUID
+}
+cOMANDO KPARTX -> eSTO CREARÁ EN DEV/MAPPER TANTOS DISPOISITIVOS LOOP COMO PARTICIONES TENGA.
+{
+sudo kpartx -a imagen,img -> añadir
+sudo kpartx -d image.img -> eliminar
+kpartx -v -a /tmp/a.img
+mount /dev/mapper/loop0 /mmt
+unmount mmt
+kpartx -d /tmp/a.img
+}
+
+Comando losetup -> hace lo mismo que al anterior, pero solo cuando hay una sola particción
+{
+losetup -f /tmp/debian.iso -> par mapear.
+losetup -l -> para ver las montadas.
+mount /dev/loop0 /mmet/a
+unmount /mmt/a
+losetup -d /dev/loop0 -> eliminar.
+}
+
+Comando useradd
+{
+useradd -m username -G group name -s shell type
+
+}
+
+userdel{
+sudo suerdel text
+}
+groupadd{
+sudo groupadd hackers
+}
+usermod
+{
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
