@@ -52,6 +52,15 @@ volatility_commands=(
   "linux_find_file"
   "linux_proc_maps"
   "linux_dump_map"
+  "linux_dmesg"
+  "linux_cpuinfo"
+  "linux_mount_cache"
+  "linux_dentry_cache"
+  "linux_arp"
+  "linux_ifconfig"
+  "linux_route_cache"
+  "linux_pkt_queues"
+
 )
 
 # Crea un directorio para guardar los resultados
@@ -70,24 +79,35 @@ for cmd in "${volatility_commands[@]}"; do
 done
 
 # Generar un informe HTML
-read -p "${color_azul}¿Desea generar un informe HTML con los resultados? (s/n) ${color_normal}" respuesta
+read -p -e "¿Desea generar un informe HTML con los resultados? (s/n) " respuesta
 if [ "$respuesta" == "s" ]
 then
     echo -e "${color_azul}Generando informe HTML...${color_normal}"
     python2.7 vol.py report -f "$1" --profile LinuxUbuntu_5_4_0-148-generic_profilex64 --output-file volatility_output/informe.html
 fi
 
+
+ echo -e "${color_azul}Listando tmpfs...${color_normal}"
+ resultado=$(python2.7 vol.py -f "$RAM_IMAGE" --profile="$PROFILE" " linux_tmpfs -L")
+ salida=$(echo "$resultado" | grep --color=auto "linux_tmpfs\|<palabra clave>")
+ echo "$salida" | tee -a "$RUTA_VOLATILITY/output_linux_tmpfs.txt"
+ echo -e "${color_azul}Resultado guardado en: $RUTA_VOLATILITY/output_linux_tmpfs.txt${color_normal}"
+
+
+
 # Preguntar si se desea filtrar los archivos de salida por una palabra clave
-read -p "${color_azul}¿Desea filtrar los archivos de salida por una palabra clave? (s/n) ${color_normal}" respuesta
+read -p "¿Desea filtrar los archivos de salida por una palabra clave? (s/n) " respuesta
 
 if [ "$respuesta" == "s" ]
 then
     # Pedir la palabra clave a buscar
-    read -p "${color_azul}Por favor, introduzca la palabra clave: ${color_normal}" palabra_clave
+    read -p "Por favor, introduzca la palabra clave: " palabra_clave
 
     # Filtrar los archivos de salida por la palabra clave y guardar la salida en un archivo
     echo -e "${color_azul}Resultados de la búsqueda:${color_normal}"
-    grep -r "$palabra_clave" $RUTA_VOLATILITY/*.txt | tee filtrado.txt
+    grep -r "$palabra_clave" $RUTA_VOLATILITY/*.txt" | tee filtrado.txt
 fi
+
+
 
 echo -e "${color_azul}Análisis de Volatility completado.${color_normal}"
