@@ -46,20 +46,23 @@ volatility_commands=(
   "linux_psaux"
   "linux_pstree"
   "linux_netstat"
+  "linux_cpuinfo"
   "linux_bash"
   "linux_lsmod"
   "linux_mount"
-  "linux_find_file"
-  "linux_proc_maps"
-  "linux_dump_map"
   "linux_dmesg"
   "linux_cpuinfo"
-  "linux_mount_cache"
-  "linux_dentry_cache"
+  "linux_arp"
+  "linux_ifconfig"
+  "linux_bash_env"
+  "linux_dynamic_env"
+  "linux_psenv"
   "linux_arp"
   "linux_ifconfig"
   "linux_route_cache"
-  "linux_pkt_queues"
+  "linux_tmpfs -L"
+
+
 
 )
 
@@ -105,7 +108,7 @@ then
 
     # Filtrar los archivos de salida por la palabra clave y guardar la salida en un archivo
     echo -e "${color_azul}Resultados de la búsqueda:${color_normal}"
-    grep -r "$palabra_clave" $RUTA_VOLATILITY/*.txt" | tee filtrado.txt
+    grep -r "$palabra_clave" "$RUTA_VOLATILITY/*.txt" | tee filtrado.txt
 fi
 
 
