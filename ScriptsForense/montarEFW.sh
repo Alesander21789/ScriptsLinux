@@ -59,3 +59,44 @@ sudo umount "$2"
 sudo losetup -d $loop_device
 
 
+
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+    echo "Uso: $0 <archivo_efw> <directorio_montaje>"
+    exit 1
+fi
+
+archivo_efw="$1"
+directorio_montaje="$2"
+
+# Comprobar si el archivo EFW existe
+if [ ! -f "$archivo_efw" ]; then
+    echo "Error: El archivo EFW $archivo_efw no existe."
+    exit 1
+fi
+
+# Comprobar si el directorio de montaje existe
+if [ ! -d "$directorio_montaje" ]; then
+    echo "Error: El directorio de montaje $directorio_montaje no existe."
+    exit 1
+fi
+
+# Montar el archivo EFW con losetup
+loop_device=$(losetup --show -fP "$archivo_efw")
+if [ $? -ne 0 ]; then
+    echo "Error: No se pudo montar el archivo EFW con losetup."
+    exit 1
+fi
+
+echo "Archivo EFW montado en el dispositivo de bucle: $loop_device"
+
+# Montar el contenido del archivo EFW en el directorio de montaje
+mount "${loop_device}p1" "$directorio_montaje"
+if [ $? -ne 0 ]; then
+    echo "Error: No se pudo montar el contenido del archivo EFW en el directorio de montaje."
+    losetup -d "$loop_device"
+    exit 1
+fi
+
+echo "Contenido del archivo EFW montado en: $directorio_montaje"

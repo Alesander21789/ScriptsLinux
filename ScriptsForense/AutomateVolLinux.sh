@@ -8,6 +8,8 @@ PROFILE="LinuxUbuntu_5_4_0-148-generic_profilex64"
 
 RUTA_VOLATILITY="."
 
+VOLATITLITY_RESULTS="resultadosVolatility"
+
 # Verificar si Volatility está instalado
 if ! command -v $RUTA_VOLATILITY python2.7 vol.py &> /dev/null
 then
@@ -67,7 +69,8 @@ volatility_commands=(
 )
 
 # Crea un directorio para guardar los resultados
-mkdir -p volatility_results
+if [ ! -d "VOLATITLITY_RESULTS" ]; then mkdir -p "VOLATITLITY_RESULTS"; fi
+
 
 # Ejecuta los comandos de Volatility
 for cmd in "${volatility_commands[@]}"; do
@@ -76,9 +79,23 @@ for cmd in "${volatility_commands[@]}"; do
   echo -e "${color_azul}Ejecutando: $cmd${color_normal}"
   resultado=$(python2.7 vol.py -f "$RAM_IMAGE" --profile="$PROFILE" "$cmd")
   salida=$(echo "$resultado" | grep --color=auto "$cmd\|<palabra clave>")
-  echo "$salida" | tee -a "$RUTA_VOLATILITY/output_$cmd.txt"
-  echo -e "${color_azul}Resultado guardado en: $RUTA_VOLATILITY/output_$cmd.txt${color_normal}"
+  echo "$salida" | tee -a "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt"
+  echo -e "${color_azul}Resultado guardado en: $RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt${color_normal}"
   echo ""
+
+  read -p "¿Desea filtrar el archivo txt generado? (s/n): " respuesta
+  if [[ $respuesta == "s" || $respuesta == "S" ]]; then
+    read -p "Ingrese las palabras para filtrar (separadas por comas): " palabras
+    IFS=',' read -ra palabras_array <<< "$palabras"
+    grep_pattern=""
+    for palabra in "${palabras_array[@]}"; do
+      grep_pattern+=" -e \"$palabra\""
+    done
+    salida_filtrada=$(grep $grep_pattern "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt")
+    echo "$salida_filtrada" > "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/filtrado_output_$cmd.txt"
+    echo -e "${color_azul}Resultado filtrado guardado en: $RUTA_VOLATILITY/$VOLATITLITY_RESULTS/filtrado_output_$cmd.txt${color_normal}"
+    echo ""
+  fi
 done
 
 # Generar un informe HTML
@@ -86,15 +103,10 @@ read -p -e "¿Desea generar un informe HTML con los resultados? (s/n) " respuest
 if [ "$respuesta" == "s" ]
 then
     echo -e "${color_azul}Generando informe HTML...${color_normal}"
-    python2.7 vol.py report -f "$1" --profile LinuxUbuntu_5_4_0-148-generic_profilex64 --output-file volatility_output/informe.html
+   python3 GenerarInforme.sh ./$VOLATITLITY_RESULTS/
 fi
 
 
- echo -e "${color_azul}Listando tmpfs...${color_normal}"
- resultado=$(python2.7 vol.py -f "$RAM_IMAGE" --profile="$PROFILE" " linux_tmpfs -L")
- salida=$(echo "$resultado" | grep --color=auto "linux_tmpfs\|<palabra clave>")
- echo "$salida" | tee -a "$RUTA_VOLATILITY/output_linux_tmpfs.txt"
- echo -e "${color_azul}Resultado guardado en: $RUTA_VOLATILITY/output_linux_tmpfs.txt${color_normal}"
 
 
 
@@ -108,7 +120,7 @@ then
 
     # Filtrar los archivos de salida por la palabra clave y guardar la salida en un archivo
     echo -e "${color_azul}Resultados de la búsqueda:${color_normal}"
-    grep -r "$palabra_clave" "$RUTA_VOLATILITY/*.txt" | tee filtrado.txt
+    grep -r "$palabra_clave" "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/*.txt" | tee filtrado.txt
 fi
 
 
