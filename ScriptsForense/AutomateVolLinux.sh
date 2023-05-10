@@ -37,9 +37,9 @@ then
 fi
 
 # Crear un directorio para guardar los archivos de salida
-if [ ! -d "$RUTA_VOLATILITY" ]
+if [ ! -d "$VOLATITLITY_RESULTS" ]
 then
-    mkdir $RUTA_VOLATILITY
+    mkdir -p $VOLATITLITY_RESULTS
 fi
 
 # Comandos de Volatility
@@ -59,7 +59,6 @@ volatility_commands=(
   "linux_bash_env"
   "linux_dynamic_env"
   "linux_psenv"
-  "linux_arp"
   "linux_ifconfig"
   "linux_route_cache"
   "linux_tmpfs -L"
@@ -69,7 +68,7 @@ volatility_commands=(
 )
 
 # Crea un directorio para guardar los resultados
-if [ ! -d "VOLATITLITY_RESULTS" ]; then mkdir -p "VOLATITLITY_RESULTS"; fi
+if [ ! -d "VOLATITLITY_RESULTS" ]; then mkdir -p $VOLATITLITY_RESULTS; fi
 
 
 # Ejecuta los comandos de Volatility
@@ -79,7 +78,7 @@ for cmd in "${volatility_commands[@]}"; do
   echo -e "${color_azul}Ejecutando: $cmd${color_normal}"
   resultado=$(python2.7 vol.py -f "$RAM_IMAGE" --profile="$PROFILE" "$cmd")
   salida=$(echo "$resultado" | grep --color=auto "$cmd\|<palabra clave>")
-  echo "$salida" | tee -a "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt"
+  echo "$resultado" | tee -a "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt"
   echo -e "${color_azul}Resultado guardado en: $RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt${color_normal}"
   echo ""
 
@@ -87,13 +86,12 @@ for cmd in "${volatility_commands[@]}"; do
   if [[ $respuesta == "s" || $respuesta == "S" ]]; then
     read -p "Ingrese las palabras para filtrar (separadas por comas): " palabras
     IFS=',' read -ra palabras_array <<< "$palabras"
-    grep_pattern=""
-    for palabra in "${palabras_array[@]}"; do
-      grep_pattern+=" -e \"$palabra\""
-    done
-    salida_filtrada=$(grep $grep_pattern "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/output_$cmd.txt")
-    echo "$salida_filtrada" > "$RUTA_VOLATILITY/$VOLATITLITY_RESULTS/filtrado_output_$cmd.txt"
-    echo -e "${color_azul}Resultado filtrado guardado en: $RUTA_VOLATILITY/$VOLATITLITY_RESULTS/filtrado_output_$cmd.txt${color_normal}"
+    grep_pattern=$(IFS='|'; echo "${palabras_array[*]}")
+    echp $grep_pattern
+    salida_filtrada=$(grep -E "$grep_pattern" "$VOLATITLITY_RESULTS/output_$cmd.txt")
+    echo $salida_filtrada
+    echo "$salida_filtrada" > "$VOLATITLITY_RESULTS/filtrado_output_$cmd.txt"
+    echo -e "${color_azul}Resultado filtrado guardado en: $VOLATITLITY_RESULTS/filtrado_output_$cmd.txt${color_normal}"
     echo ""
   fi
 done
