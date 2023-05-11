@@ -9,23 +9,23 @@ carpeta="$3"
 
 # Comprobamos si la unidad montada existe
 if ! mount | grep -q "$unidad"; then
-  # La unidad no está montada
-  echo "La unidad $unidad no está montada. No se puede continuar."
+  # La unidad no estï¿½ montada
+  echo "La unidad $unidad no estï¿½ montada. No se puede continuar."
   exit 1
 fi
 
 # Comprobamos si la carpeta existe
 if [ ! -d "$carpeta" ]; then
   # La carpeta no existe, la creamos
-  echo "La carpeta $carpeta no existe, se creará automáticamente."
+  echo "La carpeta $carpeta no existe, se crearï¿½ automï¿½ticamente."
   mkdir -p "$carpeta"
 else
   # La carpeta ya existe
   echo "La carpeta $carpeta ya existe."
 fi
 
-# Recopilamos información del sistema
-echo "Recopilando información del sistema..."
+# Recopilamos informaciï¿½n del sistema
+echo "Recopilando informaciï¿½n del sistema..."
 mkdir $carpeta/informacion-sistema
 cat $unidad/etc/*release* >> $carpeta/informacion-sistema/sistema.txt
 cat $unidad/proc/meminfo > $carpeta/informacion-sistema/memoria.txt
@@ -34,33 +34,33 @@ cat $unidad/proc/meminfo > $carpeta/informacion-sistema/memoria.txt
 # Recuperamos registros de actividad del sistema
 echo "Recuperando registros de actividad del sistema..."
 mkdir $carpeta/registros-sistema
-cp $unidad/media/$usuario/var/log/auth.log $carpeta/registros-sistema/auth.log
-cp $unidad/media/$usuario/var/log/dmesg $carpeta/registros-sistema/dmesg.log
-cp $unidad/media/$usuario/var/log/kern.log $carpeta/registros-sistema/kern.log
-cp $unidad/media/$usuario/var/log/syslog $carpeta/registros-sistema/syslog.log
-cp $unidad/media/$usuario/var/log/lastlog $carpeta/registros-sistema/lastlog
-last -i $unidad/media/$usuario/var/log/wtmp >  $carpeta/registros-sistema/inicio_sesion.txt
-last -if $unidad/media/$usuario/var/log/wtmp >  $carpeta/registros-sistema/inicio_sesion.txt
-lastb -i $unidad/media/$usuario/var/log/btmp >  $carpeta/registros-sistema/inicio_sesion_fallido.txt
-lastb -if $unidad/media/$usuario/var/log/btmp >  $carpeta/registros-sistema/inicio_sesionfallido.txt
+cp $unidad/var/log/auth.log $carpeta/registros-sistema/auth.log
+cp $unidad/var/log/dmesg $carpeta/registros-sistema/dmesg.log
+cp $unidad/var/log/kern.log $carpeta/registros-sistema/kern.log
+cp $unidad/var/log/syslog $carpeta/registros-sistema/syslog.log
+cp $unidad/var/log/lastlog $carpeta/registros-sistema/lastlog
+last -i $unidad/var/log/wtmp >  $carpeta/registros-sistema/inicio_sesion.txt
+last -if $unidad/var/log/wtmp >  $carpeta/registros-sistema/inicio_sesion.txt
+lastb -i $unidad/var/log/btmp >  $carpeta/registros-sistema/inicio_sesion_fallido.txt
+lastb -if $unidad/var/log/btmp >  $carpeta/registros-sistema/inicio_sesionfallido.txt
 
-# Recuperamos archivos de configuración importantes
-echo "Recuperando archivos de configuración..."
+# Recuperamos archivos de configuraciï¿½n importantes
+echo "Recuperando archivos de configuraciï¿½n..."
 mkdir $carpeta/archivos-configuracion
-cp $unidad/media/$usuario/etc/fstab $carpeta/archivos-configuracion/fstab.txt
-cp $unidad/media/$usuario/etc/passwd $carpeta/archivos-configuracion/passwd.txt
-cp $unidad/media/$usuario/etc/shadow $carpeta/archivos-configuracion/shadow.txt
-cp $unidad/media/$usuario/etc/sudoers $carpeta/archivos-configuracion/sudoers.txt
-cp $unidad/media/$usuario/etc/sudoers.d $carpeta/archivos-configuracion/sudoers.d.txt
-cp $unidad/media/$usuario/etc/group $carpeta/archivos-configuracion/group.txt
+cp $unidad/etc/fstab $carpeta/archivos-configuracion/fstab.txt
+cp $unidad/etc/passwd $carpeta/archivos-configuracion/passwd.txt
+cp $unidad/etc/shadow $carpeta/archivos-configuracion/shadow.txt
+cp $unidad/etc/sudoers $carpeta/archivos-configuracion/sudoers.txt
+cp $unidad/etc/sudoers.d $carpeta/archivos-configuracion/sudoers.d.txt
+cp $unidad/etc/group $carpeta/archivos-configuracion/group.txt
 
 
-# Recopilamos información del sistema de archivos
+# Recopilamos informaciï¿½n del sistema de archivos
 
-echo "Recopilando información del sistema de archivos..."
+echo "Recopilando informaciï¿½n del sistema de archivos..."
 mkdir $carpeta/sitema-archivos
-ls -la $unidad/media/$usuario/home > $carpeta/sitema-archivos/usuarios.txt
-find $unidad/media/$usuario -type f -name "*.log" -exec cp {} $carpeta/sitema-archivos/logs.txt \;
+ls -la $unidad/home/$usuario/home > $carpeta/sitema-archivos/usuarios.txt
+find $unidad/home/$usuario -type f -name "*.log" -exec cp {} $carpeta/sitema-archivos/logs.txt \;
 cat $unidad/etc/lsb-release > $carpeta/sitema-archivos/version.txt
 cat $unidad/hostname > $carpeta/sistema-archivos/hostanme.txt
 
@@ -72,18 +72,18 @@ mkdir $carpeta/archivos-eliminados
 sudo foremost -t all -i $unidad/media/$usuario -o $carpeta/archivos-eliminados
 
 
-# Recuperamos contraseñas
-echo "Recuperando contraseñas..."
+# Recuperamos contraseï¿½as
+echo "Recuperando contraseï¿½as..."
 sudo unshadow $unidad/media/$usuario/etc/passwd $unidad/home/$usuario/etc/shadow > $carpeta/passwd-shadow.txt
-# Descifrar contraseñas con John the Ripper
+# Descifrar contraseï¿½as con John the Ripper
 john --wordlist=/usr/share/wordlists/rockyou.tx $carpeta/passwd-shadow.txt
 
-sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/home/$usuario/home/*/.ssh/authorized_keys
-sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/home/$usuario/var/lib/mysql/mysql/user.MYD
-sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/home/$usuario/var/lib/mysql/mysql/db.MYD 
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/home/$usuario/.ssh/authorized_keys
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/var/lib/mysql/mysql/user.MYD
+sudo john --wordlist=/usr/share/wordlists/rockyou.txt $unidad/var/lib/mysql/mysql/db.MYD 
 
-# Recuperamos información de red
-echo "Recuperando información de red..."
+# Recuperamos informaciï¿½n de red
+echo "Recuperando informaciï¿½n de red..."
 mkdir $carpeta/red
 cat $unidad/etc/network/interfaces > $carpeta/interfaces.txt
 cat $unidad/etc/sysconfig/network-scripts > $carpeta/red/network_scripts.txt
@@ -95,7 +95,7 @@ cat $unidad/var/lib/dhclient >>  $carpeta/red/dhcp.txt
 cat $unidad/var/lib/dhcp >>  $carpeta/red/dhcp.txt
 
 #Fecha instalacion aproximada
-echo "Recuperando información de red..."
+echo "Recuperando informaciï¿½n de red..."
 mkdir $carpeta/instalacion
 stat -c %w $unidad/lost+found  > /$carpeta/instalacion/instalacion.txt
 sudo debugfs -R 'stat /lost+found' /dev/sda1 >> /$carpeta/instalacion/instalacion.txt
@@ -109,7 +109,7 @@ find $unidad/home -name ".bash_history" -exec cp --parents {} "$carpeta/historia
 
 
 
-# Archivos de configuración
+# Archivos de configuraciï¿½n
 echo "Archivos de configuracion..."
 mkdir $carpeta/historial-configuracion
 find /mnt/image/etc -type f -name "*.conf" -o -name "*.cfg" -exec cp --parents {} "$carpeta/historial-configuracion/historial_configuracion.txt" \;
