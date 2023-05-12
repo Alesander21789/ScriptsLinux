@@ -131,6 +131,10 @@ mkdir $carpeta/timestamp-ficheros
 
 find $unidad/home -newer $unidad/ -printf "%p, %A+,%T+,%C+\n" > $carpeta/timestamp-ficheros/timestam.txt
 
+#Buscar un fichero sudo find /home/parrot/montado/home/ -name gruyere.py
+#Buscar grupos a los que pertenece un usuario grep <usuario> /home/parrot/montado/etc/group
+
+
 #SSH
 echo "SSH..."
 mkdir $carpeta/ssh
