@@ -29,7 +29,9 @@ echo "Recopilando informaci�n del sistema..."
 mkdir $carpeta/informacion-sistema
 cat $unidad/etc/*release* >> $carpeta/informacion-sistema/sistema.txt
 cat $unidad/proc/meminfo > $carpeta/informacion-sistema/memoria.txt
-
+stat -c %w / > $carpeta/fecha-creacion.txt
+sudo debugfs -R 'stat /lost+found' $unidad
+zdump $unidad/etc/localtime > ·carpeta/localtime.txt
 
 # Recuperamos registros de actividad del sistema
 echo "Recuperando registros de actividad del sistema..."
@@ -55,6 +57,7 @@ cp $unidad/etc/sudoers.d $carpeta/archivos-configuracion/sudoers.d.txt
 cp $unidad/etc/group $carpeta/archivos-configuracion/group.txt
 
 
+
 # Recopilamos informaci�n del sistema de archivos
 
 echo "Recopilando informaci�n del sistema de archivos..."
@@ -67,9 +70,9 @@ cat $unidad/hostname > $carpeta/sistema-archivos/hostanme.txt
 
 
 # Recuperamos archivos eliminados
-echo "Recuperando archivos eliminados..."
-mkdir $carpeta/archivos-eliminados
-sudo foremost -t all -i $unidad/media/$usuario -o $carpeta/archivos-eliminados
+#echo "Recuperando archivos eliminados..."
+#mkdir $carpeta/archivos-eliminados
+#sudo foremost -t all -i $unidad/media/$usuario -o $carpeta/archivos-eliminados
 
 
 # Recuperamos contrase�as
@@ -106,7 +109,15 @@ cat $unidad/etc/localtime  >>  /$carpeta/instalacion/zonahoraria.txt
 echo "Historial de comandos ..."
 mkdir $carpeta/historial-comandos
 find $unidad/home -name ".bash_history" -exec cp --parents {} "$carpeta/historial-comandos/historial_comandos.txt" \;
+find $unidad/home -name ".zsh_history" -exec cp --parents {} "$carpeta/historial-comandos/historial_comandos_dos.txt" \;
+find $unidad/home -name ".bash_history" -exec cp --parents {} "$carpeta/historial-comandos/historial_comandos.txt" \;
+find $unidad/home -name ".lesshst" -exec cp --parents {} "$carpeta/historial-comandos/less.txt" \;
+find $unidad/home -name ".viminfo" -exec cp --parents {} "$carpeta/historial-comandos/vim.txt" \;
 
+
+# Logs 
+mkdir $carpeta/volvado_logs
+find $unidad/ -name "*.log" -exec cp {} $carpeta/volvado_logs \;
 
 
 # Archivos de configuraci�n
@@ -141,3 +152,13 @@ mkdir $carpeta/ssh
 cp $unidad/home/$usuario/.ssh/known_hosts  $carpeta/ssh/known_hosts
 
 cp $unidad/home/$usuario/.ssh/config  $carpeta/ssh/config
+
+#MRU
+mkdir ·carpeta/mru
+cp $unidad/home/$usuario/.local/share/recently-used.xbel > $carpeta/mru/
+
+
+#Papelear
+mkdir $carpeta/papelera
+cp $unidad/home/$usuario/.local/share/Trash/info > $carpeta/papelera/
+cp $unidad/home/$usuario/.local/share/Trash/files  > $carpeta/papelera/
