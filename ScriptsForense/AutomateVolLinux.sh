@@ -44,27 +44,29 @@ fi
 
 # Comandos de Volatility
 volatility_commands=(
-  "linux_pslist"
-  "linux_psaux"
-  "linux_pstree"
-  "linux_netstat"
-  "linux_cpuinfo"
-  "linux_bash"
-  "linux_lsmod"
-  "linux_mount"
-  "linux_dmesg"
-  "linux_cpuinfo"
-  "linux_arp"
-  "linux_ifconfig"
-  "linux_bash_env"
-  "linux_dynamic_env"
-  "linux_psenv"
-  "linux_ifconfig"
-  "linux_route_cache"
-  "linux_tmpfs -L"
-
-
-
+  "linux_pslist"                 # Muestra una lista de todos los procesos en ejecución en la imagen de memoria de Linux.
+  "linux_psaux"                  # Proporciona una lista detallada de procesos en ejecución, incluyendo los argumentos de línea de comandos utilizados para iniciar cada proceso.
+  "linux_pstree"                 # Genera un árbol de procesos que muestra las relaciones jerárquicas entre los procesos en ejecución.
+  "linux_netstat"                # Muestra información sobre las conexiones de red activas en la imagen de memoria.
+  "linux_pswview"                # Proporciona una visualización de los procesos en ejecución y los puertos asociados.
+  "linux_bash"                   # Identifica los comandos ejecutados en la shell de Bash en el sistema.
+  "linux_lsmod"                  # Enumera los módulos del kernel cargados en el sistema.
+  "linux_mount"                  # Muestra información sobre los sistemas de archivos montados en el sistema.
+  "linux_find_file"              # Permite buscar archivos específicos en la imagen de memoria.
+  "linux_proc_maps"              # Muestra el mapa de memoria de un proceso específico en la imagen de memoria.
+  "linux_dump_map"               # Extrae una región de memoria específica de la imagen y la guarda en un archivo.
+  "linux_cpuinfo"                # Muestra información sobre el procesador y su configuración.
+  "linux_lsof"                   # Lista los archivos abiertos por los procesos en ejecución.
+  "linux_lsof | grep -i /home/ubunt"  # Filtra los archivos abiertos que pertenecen al directorio /home/ubunt.
+  "linux_bash_env"               # Muestra las variables de entorno establecidas en la shell de Bash.
+  "linux_dynamic_env"            # Muestra las variables de entorno modificadas durante la ejecución de los procesos.
+  "linux_psenv"                  # Muestra las variables de entorno establecidas para cada proceso en ejecución.
+  "linux_arp"                    # Muestra la tabla de caché de resolución de direcciones (ARP) del sistema.
+  "linux_ifconfig"               # Muestra la configuración de las interfaces de red.
+  "linux_route_cache"            # Muestra la caché de enrutamiento del sistema.
+  "linux_tmpfs -L"               # Muestra información sobre los sistemas de archivos de tipo tmpfs montados en el sistema.
+  "linux_dmesg"                  # Muestra los mensajes del kernel capturados por dmesg.
+  "linux_find_file"              # Permite buscar archivos específicos en el sistema.
 )
 
 # Crea un directorio para guardar los resultados
